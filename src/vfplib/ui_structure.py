@@ -29,9 +29,6 @@ class Button(object):
     # coordinates
     # pointer to target screen
     def __init__(self, name, coord):
-        assert isinstance(name, str)
-        assert isinstance(coord, tuple)
-        assert len(coord) == 2
         self.name = name
         self.coord = coord
 
@@ -48,7 +45,7 @@ class Button(object):
         return not self.__eq__(other)
 
     def __str__(self):
-        return 'Button: ' + self.name
+        return 'Button: ' + str(self.name)
 
 class FieldButton(Button):
     def __init__(self, name, coord, setting):
@@ -56,7 +53,7 @@ class FieldButton(Button):
         self.setting = setting
 
     def __str__(self):
-        return 'FieldButton: ' + self.name
+        return 'FieldButton: ' + str(self.name)
 
 NUMERICAL_ENTRY_BUTTONS = []
 for name in NUMERICAL_ENTRY_MAP:
@@ -76,11 +73,8 @@ class Screen(object):
     NEW: stores mutable settings that are NOT hashed
     """
     def __init__(self, name, buttons):
-        assert isinstance(name, str)
         self.name = name
         self.buttons = FrozenHashSet(buttons)
-        for button in self.buttons:
-            assert isinstance(button, Button)
 
     def __hash__(self):
         return hash((self.name, self.buttons))
@@ -95,7 +89,7 @@ class Screen(object):
         return not self.__eq__(other)
 
     def __str__(self):
-        return 'Screen: ' + self.name
+        return 'Screen: ' + str(self.name)
 
 class SubScreen(Screen):
     """ Represents an immutable and unique UI screen that is actually just a popup screen accessible only through a parent screen.
@@ -104,7 +98,6 @@ class SubScreen(Screen):
     Uniqueness is determined by the name, set of buttons, and parent screen.
     """
     def __init__(self, name, buttons, parent=None):
-        assert (parent == None) or isinstance(parent, Screen)
         super(SubScreen, self).__init__(name, buttons)
         self.parent = parent
 
@@ -121,11 +114,11 @@ class SubScreen(Screen):
         return not self.__eq__(other)
 
     def __str__(self):
-        return 'SubScreen: ' + self.name + ', child of ' + str(self.parent)
+        return 'SubScreen: ' + str(self.name) + ', child of ' + str(self.parent)
 
 class NumericalEntry(SubScreen):
     def __init__(self, name, parent=None):
         super(NumericalEntry, self).__init__(name, NUMERICAL_ENTRY_BUTTONS, parent)
 
     def __str__(self):
-        return 'NumericalEntry: ' + self.name
+        return 'NumericalEntry: ' + str(self.name)
