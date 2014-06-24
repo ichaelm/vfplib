@@ -48,7 +48,7 @@ class DummyParser(Parser):
                 targetname = truetarget
             else:
                 targetname = falsetarget
-        assert sourcename == self.currentscreen.name
+        assert sourcename == self.currentscreen.title
         assert targetname in dummyscreenmap.keys()
         self.currentscreen = dummyscreenmap[targetname]
     def press(self, hardbuttonname):

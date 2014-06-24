@@ -36,7 +36,7 @@ class Test(unittest.TestCase):
         screen = self.parser.analyze()
         self.assertEqual(self.session.log, ['screencap()'])
         self.assertIsInstance(screen, SubScreen)
-        self.assertEqual(screen.name, expectedscreenname)
+        self.assertEqual(screen.title, expectedscreenname)
         self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
         for button in screen.buttons:
             self.assertIn(button.name, expectedbuttonmap)
@@ -54,7 +54,7 @@ class Test(unittest.TestCase):
         screen = self.parser.analyze()
         self.assertEqual(self.session.log, ['screencap()'])
         self.assertIsInstance(screen, SubScreen)
-        self.assertEqual(screen.name, expectedscreenname)
+        self.assertEqual(screen.title, expectedscreenname)
         self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
         for button in screen.buttons:
             self.assertIn(button.name, expectedbuttonmap)
@@ -72,7 +72,7 @@ class Test(unittest.TestCase):
         screen = self.parser.analyze()
         self.assertEqual(self.session.log, ['screencap()'])
         self.assertIsInstance(screen, Screen)
-        # self.assertEqual(screen.name, expectedscreenname)
+        # self.assertEqual(screen.title, expectedscreenname)
         self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
         for button in screen.buttons:
             self.assertIn(button.name, expectedbuttonmap)
@@ -90,7 +90,7 @@ class Test(unittest.TestCase):
         screen = self.parser.analyze()
         self.assertEqual(self.session.log, ['screencap()'])
         self.assertIsInstance(screen, SubScreen)
-        self.assertEqual(screen.name, expectedscreenname)
+        self.assertEqual(screen.title, expectedscreenname)
         self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
         for button in screen.buttons:
             self.assertIn(button.name, expectedbuttonmap)
@@ -108,7 +108,7 @@ class Test(unittest.TestCase):
         screen = self.parser.analyze()
         self.assertEqual(self.session.log, ['screencap()'])
         self.assertIsInstance(screen, SubScreen)
-        self.assertEqual(screen.name, expectedscreenname)
+        self.assertEqual(screen.title, expectedscreenname)
         self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
         for button in screen.buttons:
             self.assertIn(button.name, expectedbuttonmap)

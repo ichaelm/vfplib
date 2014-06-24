@@ -27,7 +27,7 @@ class Test(unittest.TestCase):
 
         assert len(graph) == len(dummyscreenmap)
         for screen in graph:
-            assert dummyscreenmap[screen.name] == screen
+            assert dummyscreenmap[screen.title] == screen
             print(str(screen) + ' has buttons:')
             for button in screen.buttons:
                 print('    ' + button.name)

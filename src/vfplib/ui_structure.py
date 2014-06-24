@@ -72,16 +72,16 @@ class Screen(object):
 
     NEW: stores mutable settings that are NOT hashed
     """
-    def __init__(self, name, buttons):
-        self.name = name
+    def __init__(self, title, buttons):
+        self.title = title
         self.buttons = FrozenHashSet(buttons)
 
     def __hash__(self):
-        return hash((self.name, self.buttons))
+        return hash((self.title, self.buttons))
 
     def __eq__(self, other):
         if isinstance(other, Screen):
-            return (self.name, self.buttons) == (other.name, other.buttons)
+            return (self.title, self.buttons) == (other.title, other.buttons)
         else:
             return False
 
@@ -89,7 +89,7 @@ class Screen(object):
         return not self.__eq__(other)
 
     def __str__(self):
-        return 'Screen: ' + str(self.name)
+        return 'Screen: ' + str(self.title)
 
 class SubScreen(Screen):
     """ Represents an immutable and unique UI screen that is actually just a popup screen accessible only through a parent screen.
@@ -97,16 +97,16 @@ class SubScreen(Screen):
     In addition to Screen's name and buttons fields, this also stores the parent screen as a Screen object.
     Uniqueness is determined by the name, set of buttons, and parent screen.
     """
-    def __init__(self, name, buttons, parent=None):
-        super(SubScreen, self).__init__(name, buttons)
+    def __init__(self, title, buttons, parent=None):
+        super(SubScreen, self).__init__(title, buttons)
         self.parent = parent
 
     def __hash__(self):
-        return hash((self.name, self.buttons, self.parent))
+        return hash((self.title, self.buttons, self.parent))
 
     def __eq__(self, other):
         if isinstance(other, SubScreen):
-            return (self.name, self.buttons, self.parent) == (other.name, other.buttons, other.parent)
+            return (self.title, self.buttons, self.parent) == (other.title, other.buttons, other.parent)
         else:
             return False
 
@@ -114,11 +114,11 @@ class SubScreen(Screen):
         return not self.__eq__(other)
 
     def __str__(self):
-        return 'SubScreen: ' + str(self.name) + ', child of ' + str(self.parent)
+        return 'SubScreen: ' + str(self.title) + ', child of ' + str(self.parent)
 
 class NumericalEntry(SubScreen):
-    def __init__(self, name, parent=None):
-        super(NumericalEntry, self).__init__(name, NUMERICAL_ENTRY_BUTTONS, parent)
+    def __init__(self, title, parent=None):
+        super(NumericalEntry, self).__init__(title, NUMERICAL_ENTRY_BUTTONS, parent)
 
     def __str__(self):
-        return 'NumericalEntry: ' + str(self.name)
+        return 'NumericalEntry: ' + str(self.title)
