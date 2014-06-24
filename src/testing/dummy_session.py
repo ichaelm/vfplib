@@ -9,7 +9,7 @@ from PIL import Image
 from vfplib.session import Session
 
 class DummySession(Session):
-    def __init__(self, imagepath = None):
+    def __init__(self, imagepath=None):
         if imagepath != None:
             self.currentscreen = Image.open(imagepath)
         self.log = []

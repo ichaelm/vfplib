@@ -12,7 +12,7 @@ class Crawler(object):
         assert isinstance(parser, Parser)
         self.parser = parser
         self.graph = Graph()
-    
+
     def click(self, button):
         assert isinstance(button, Button)
         assert hasattr(self, 'currentscreen')
@@ -22,28 +22,28 @@ class Crawler(object):
             if not isinstance(self.lastscreen, SubScreen):
                 self.lastfullscreen = self.lastscreen
             self.parser.click(button)
-        
+
     def press(self, hardbuttonname):
         assert isinstance(hardbuttonname, str)
         self.parser.press(hardbuttonname)
         if hardbuttonname == 'exit':
             self.currentscreen = self.lastscreen
-            
+
     def analyze(self):
         screen = self.parser.analyze()
-        
+
         if isinstance(screen, SubScreen):
             assert hasattr(self, 'lastfullscreen')
             screen.parent = self.lastfullscreen
-        
+
         self.graph.add(screen, screen.buttons)
         self.currentscreen = screen
         if hasattr(self, 'lastscreen'):
             assert hasattr(self, 'currentbutton')
             self.graph.add_edge(self.lastscreen, self.currentbutton, self.currentscreen)
-        
+
         return screen
-    
+
     def crawl(self):
         self.analyze()
         path = self.graph.nearest_unexplored_edge(self.currentscreen)
@@ -60,8 +60,7 @@ class Crawler(object):
                     self.analyze()
             path = self.graph.nearest_unexplored_edge(self.currentscreen)
         return self.graph
-    
+
     def __str__(self):
         return 'Crawler on ' + str(self.parser)
 
-        

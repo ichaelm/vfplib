@@ -21,23 +21,33 @@ class namedTuple(object):
         self.LL = LL
         self.LR = LR
 
-popup               = namedTuple(getImage('ULcornerpopup.png'),
-                                 getImage('URcornerpopup.png'),
-                                 getImage('LLcornerpopup.png'),
-                                 getImage('LRcornerpopup.png'))
-button              = namedTuple(getImage('ULcorner.png'),
-                                 getImage('URcorner.png'),
-                                 getImage('LLcorner.png'),
-                                 getImage('LRcorner.png'))
-buttonSelected      = namedTuple(getImage('ULcornerselected.png'),
-                                 getImage('URcornerselected.png'),
-                                 getImage('LLcornerselected.png'),
-                                 getImage('LRcornerselected.png'))
-popupButton         = namedTuple(getImage('ULcornergrey.png'),
-                                 getImage('URcornergrey.png'),
-                                 getImage('LLcornergrey.png'),
-                                 getImage('LRcornergrey.png'))
-popupButtonSelected = namedTuple(getImage('ULcornergreyselected.png'),
-                                 getImage('URcornergreyselected.png'),
-                                 getImage('LLcornergreyselected.png'),
-                                 getImage('LRcornergreyselected.png'))
+popup = namedTuple(
+    getImage('ULcornerpopup.png'),
+    getImage('URcornerpopup.png'),
+    getImage('LLcornerpopup.png'),
+    getImage('LRcornerpopup.png')
+)
+button = namedTuple(
+    getImage('ULcorner.png'),
+    getImage('URcorner.png'),
+    getImage('LLcorner.png'),
+    getImage('LRcorner.png')
+)
+buttonSelected = namedTuple(
+    getImage('ULcornerselected.png'),
+    getImage('URcornerselected.png'),
+    getImage('LLcornerselected.png'),
+    getImage('LRcornerselected.png')
+)
+popupButton = namedTuple(
+    getImage('ULcornergrey.png'),
+    getImage('URcornergrey.png'),
+    getImage('LLcornergrey.png'),
+    getImage('LRcornergrey.png')
+)
+popupButtonSelected = namedTuple(
+    getImage('ULcornergreyselected.png'),
+    getImage('URcornergreyselected.png'),
+    getImage('LLcornergreyselected.png'),
+    getImage('LRcornergreyselected.png')
+)

@@ -3,10 +3,8 @@ Created on Jun 4, 2014
 
 @author: mschaffe
 '''
+
 import unittest
-
-#import dummy_session
-
 
 from vfplib.crawler import Crawler
 from vfplib.parser import Button
@@ -23,10 +21,10 @@ class Test(unittest.TestCase):
 
 
     def setUp(self):
-        #dut = DummySession()
+        # dut = DummySession()
         interp = Crawler(DummyParser())
         graph = interp.crawl()
-        
+
         assert len(graph) == len(dummyscreenmap)
         for screen in graph:
             assert dummyscreenmap[screen.name] == screen
@@ -36,8 +34,8 @@ class Test(unittest.TestCase):
             if len(set(graph.explored_edges(screen))) > 0:
                 print('  and points:')
                 for edge in graph.explored_edges(screen):
-                    assert edge == screen.buttons.find(Button(edge.name,(0,0)))
-                    #assert graph.follow_edge(screen, edge).name == edge.name.partition('_to_')[2]
+                    assert edge == screen.buttons.find(Button(edge.name, (0, 0)))
+                    # assert graph.follow_edge(screen, edge).name == edge.name.partition('_to_')[2]
                     print('    through ' + str(edge) + ' to ' + str(graph.follow_edge(screen, edge)))
         print(str(interp.parser.numscreencaps) + ' total screencaps')
         if SAVE:
@@ -50,5 +48,5 @@ class Test(unittest.TestCase):
         pass
 
 if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
+    # import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

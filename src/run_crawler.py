@@ -26,6 +26,6 @@ if __name__ == '__main__':
                 print('  and points:')
                 for edge in graph.explored_edges(screen):
                     print('    through ' + str(edge) + ' to ' + str(graph.follow_edge(screen, edge)))
-        
+
         if SAVE:
             pickle.dump(graph, open(SAVE_PATH, 'wb'), protocol=2)

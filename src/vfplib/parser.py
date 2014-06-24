@@ -24,21 +24,21 @@ HARD_BUTTONS = {
 }
 
 MAIN_MENU_MAP = {
-    'Measure: QuickSet'     : ( 95,  75),
-    'Measure: Settings'     : ( 95, 163),
-    'Measure: Calculations' : ( 95, 251),
-    'Measure: Config List'  : ( 95, 339),
-    'Measure: Data Buffers' : ( 95, 427),
-    'Views: Graph'          : (315,  75),
+    'Measure: QuickSet'     : (95, 75),
+    'Measure: Settings'     : (95, 163),
+    'Measure: Calculations' : (95, 251),
+    'Measure: Config List'  : (95, 339),
+    'Measure: Data Buffers' : (95, 427),
+    'Views: Graph'          : (315, 75),
     'Views: Histogram'      : (315, 163),
     'Views: Sheet'          : (315, 251),
-    'Trigger: Templates'    : (450,  75),
+    'Trigger: Templates'    : (450, 75),
     'Trigger: Configure'    : (450, 163),
-    'Scripts: Run'          : (585,  75),
+    'Scripts: Run'          : (585, 75),
     'Scripts: Manage'       : (585, 163),
     'Scripts: Create Setup' : (585, 251),
     'Scripts: Record'       : (585, 339),
-    'System: Event Log'     : (720,  75),
+    'System: Event Log'     : (720, 75),
     'System: Communication' : (720, 163),
     'System: Settings'      : (720, 251),
     'System: Calibration'   : (720, 339),
@@ -47,7 +47,7 @@ MAIN_MENU_MAP = {
 
 # ocr
 def OCR_image(im):
-    text = pytesser.image_to_string(im).strip('\n').replace('\n',' ')
+    text = pytesser.image_to_string(im).strip('\n').replace('\n', ' ')
     return text
 
 # cornerbox processing
@@ -60,25 +60,25 @@ def match_corners(ULcorners, URcorners, LLcorners, LRcorners):
         LLcorner = ()
         LRcorner = ()
         for prospect in URcorners:
-            if prospect[1] >= ULcorner[1]-radius and prospect[1] <= ULcorner[1]+radius and prospect[0] > ULcorner[0] and (URcorner == () or prospect[0] < URcorner[0]):
+            if prospect[1] >= ULcorner[1] - radius and prospect[1] <= ULcorner[1] + radius and prospect[0] > ULcorner[0] and (URcorner == () or prospect[0] < URcorner[0]):
                 URcorner = prospect
         if len(URcorner) != 2: continue
         for prospect in LLcorners:
-            if prospect[0] >= ULcorner[0]-radius and prospect[0] <= ULcorner[0]+radius and prospect[1] > ULcorner[1] and (LLcorner == () or prospect[1] < LLcorner[1]): # fixed bug, 0 to 1
+            if prospect[0] >= ULcorner[0] - radius and prospect[0] <= ULcorner[0] + radius and prospect[1] > ULcorner[1] and (LLcorner == () or prospect[1] < LLcorner[1]):  # fixed bug, 0 to 1
                 LLcorner = prospect
         if len(LLcorner) != 2: continue
         for prospect in LRcorners:
-            if prospect[0] >= URcorner[0]-radius and prospect[0] <= URcorner[0]+radius and prospect[1] >= LLcorner[1]-radius and prospect[1] <= LLcorner[1]+radius:
+            if prospect[0] >= URcorner[0] - radius and prospect[0] <= URcorner[0] + radius and prospect[1] >= LLcorner[1] - radius and prospect[1] <= LLcorner[1] + radius:
                 LRcorner = prospect
         if len(LRcorner) != 2: continue
         quads.append((ULcorner, URcorner, LLcorner, LRcorner))
     return quads
 
 def quad_to_box(quad):
-    left = max(quad[0][0], quad[2][0])+4
-    upper = max(quad[0][1], quad[1][1])+4
-    right = min(quad[1][0], quad[3][0])+1
-    lower = min(quad[2][1], quad[3][1])+1
+    left = max(quad[0][0], quad[2][0]) + 4
+    upper = max(quad[0][1], quad[1][1]) + 4
+    right = min(quad[1][0], quad[3][0]) + 1
+    lower = min(quad[2][1], quad[3][1]) + 1
     return (left, upper, right, lower)
 
 def box_area(box):
@@ -112,16 +112,16 @@ def fit_box_inside_bounds(box, boundingbox):
     lower = min(box[3], boundingbox[3])
     return (left, upper, right, lower)
 
-def get_title_box(popupbox = None):
+def get_title_box(popupbox=None):
     if popupbox != None:
         titlebox = popupbox
         titlebox = (titlebox[0], titlebox[1], titlebox[2], titlebox[1] + 50)
     else:
-        titlebox = (0,0,799,43) #magicnumber
+        titlebox = (0, 0, 799, 43)  # magicnumber
     return titlebox
 
 def box_center(box):
-    return ((box[0] + box[2])/2, (box[1] + box[3])/2)
+    return ((box[0] + box[2]) / 2, (box[1] + box[3]) / 2)
 
 # higher level
 def get_popup_box(screen):
@@ -145,7 +145,7 @@ def get_popup_box(screen):
     else:
         return None
 
-def get_button_boxes(screen, popupbox = None):
+def get_button_boxes(screen, popupbox=None):
     popup = (popupbox != None)
     if popup:
         ULcorners = find_subimage(screen, templates.popupButton.UL, popupbox)
@@ -178,14 +178,14 @@ def button_has_label(screen, button_box):
     array = labelim.load()
     for x in xrange(labelim.size[0]):
         for y in xrange(labelim.size[1]):
-            if array[x,y] == magic_color:
+            if array[x, y] == magic_color:
                 return True
     return False
 
-def OCR_title(screen_im_rgb, popup_box = None):
+def OCR_title(screen_im_rgb, popup_box=None):
     screen_im_mono = screen_im_rgb.split()[2]
     title_box = get_title_box(popup_box)
-    title_im_mono = screen_im_mono.crop(title_box) #_orij #split
+    title_im_mono = screen_im_mono.crop(title_box)  # _orij #split
     title_im_bw = threshold_image(title_im_mono, 180)
     title_text = OCR_image(title_im_bw)
     return title_text
@@ -204,10 +204,10 @@ def OCR_label(screen_im_rgb, label_box):
     label_text = OCR_image(label_im_bw)
     return label_text
 
-def convert_box_to_button(screen_im_rgb, button_box, popup_box = None):
+def convert_box_to_button(screen_im_rgb, button_box, popup_box=None):
     button_text = OCR_button(screen_im_rgb, button_box)
     coord = box_center(button_box)
-    
+
     if button_has_label(screen_im_rgb, button_box):
         label_box = box_to_label_box(button_box)
         if popup_box != None:
@@ -226,16 +226,16 @@ class Parser(object):
     def __init__(self, session):
         assert isinstance(session, Session)
         self.session = session
-        
+
     def click(self, button):
         assert isinstance(button, Button)
         coord = button.coord
         self.session.click(*coord)
-        
+
     def press(self, hardbuttonname):
         assert isinstance(hardbuttonname, str)
         self.session.press(HARD_BUTTONS[hardbuttonname])
-    
+
     def enter(self, number):
         text = str(number)
         try:
@@ -244,19 +244,19 @@ class Parser(object):
         except:
             raise
         self.click(NUMERICAL_ENTRY_BUTTONS_MAP['OK'])
-    
+
     def analyze(self):
         # store screencap image
         screen_im_orij = self.session.screencap()
         screen_im_rgb = screen_im_orij.convert('RGB')
-        
+
         # determine if popup or not, and store popup box if it is
         popup_box = get_popup_box(screen_im_rgb)
         is_popup = (popup_box != None)
-        
+
         # find button boxes
         button_boxes = get_button_boxes(screen_im_rgb, popup_box)
-        
+
         # create button object for each button box
         buttons = []
         names = []
@@ -265,7 +265,7 @@ class Parser(object):
             buttons.append(button)
             names.append(button.name)
         screenname = OCR_title(screen_im_rgb, popup_box)
-        
+
         if '1' in names and '2' in names and '3' in names:
             screen = NumericalEntry(screenname)
         else:
@@ -274,6 +274,6 @@ class Parser(object):
             else:
                 screen = Screen(screenname, buttons)
         return screen
-    
+
     def __str__(self):
         return 'Parser on' + str(self.session)

@@ -20,10 +20,10 @@ def threshold_image(im, threshold):
                 array[x, y] = 0
     return newim
 
-def find_subimage(pil_image, pil_template, searchbox = ()):
-    image = numpy.array(pil_image).copy()#[:,:,::-1].copy() #split
-    template = numpy.array(pil_template).copy()#[:,:,::-1].copy() #split
-    offset = (0,0)
+def find_subimage(pil_image, pil_template, searchbox=()):
+    image = numpy.array(pil_image).copy()  # [:,:,::-1].copy() #split
+    template = numpy.array(pil_template).copy()  # [:,:,::-1].copy() #split
+    offset = (0, 0)
     if len(searchbox) == 4:
         left = searchbox[0]
         upper = searchbox[1]
@@ -31,9 +31,9 @@ def find_subimage(pil_image, pil_template, searchbox = ()):
         lower = searchbox[3]
         image = image[upper:lower, left:right]
         offset = (left, upper)
-    
-    matchmatrix = cv2.matchTemplate(image,template,cv2.TM_CCOEFF_NORMED)
+
+    matchmatrix = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
     unresult = numpy.where(matchmatrix > MATCH_THRESHOLD)
     result = zip(unresult[1], unresult[0])
-    result = [(coord[0]+offset[0], coord[1]+offset[1]) for coord in result]
+    result = [(coord[0] + offset[0], coord[1] + offset[1]) for coord in result]
     return result
