@@ -7,7 +7,7 @@ Created on Jun 4, 2014
 import pytesser
 
 from .session import Session
-from .ui_structure import Button, Screen, SubScreen, NumericalEntry, NUMERICAL_ENTRY_BUTTONS_MAP, FieldButton
+from .ui_structure import Button, Screen, NumericalEntry, NUMERICAL_ENTRY_BUTTONS_MAP, FieldButton
 
 from .improc import threshold_image, find_subimage
 import templates
@@ -270,7 +270,7 @@ class Parser(object):
             screen = NumericalEntry(screenname)
         else:
             if is_popup:
-                screen = SubScreen(screenname, buttons, parent)
+                screen = Screen(screenname, buttons, parent)
             else:
                 screen = Screen(screenname, buttons)
         return screen

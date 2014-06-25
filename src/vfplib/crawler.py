@@ -4,7 +4,7 @@ Created on Jun 5, 2014
 @author: mschaffe
 '''
 
-from .parser import Parser, Button, SubScreen
+from .parser import Parser, Button
 from .graph import Graph
 
 class Crawler(object):
@@ -20,7 +20,7 @@ class Crawler(object):
         if button in self.currentscreen.buttons:
             self.currentbutton = button
             self.lastscreen = self.currentscreen
-            if not isinstance(self.lastscreen, SubScreen):
+            if self.lastscreen.parent == None:
                 self.lastfullscreen = self.lastscreen
             self.parser.click(button)
 

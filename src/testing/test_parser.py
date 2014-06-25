@@ -7,7 +7,7 @@ Created on Jun 4, 2014
 import unittest
 from dummy_session import DummySession
 from vfplib.parser import Parser
-from vfplib.ui_structure import Screen, SubScreen, FieldButton
+from vfplib.ui_structure import Screen, FieldButton
 
 from PIL import Image
 import os
@@ -35,7 +35,7 @@ class Test(unittest.TestCase):
         self.session.set_screen(Image.open(self.screenA))
         screen = self.parser.analyze(None)
         self.assertEqual(self.session.log, ['screencap()'])
-        self.assertIsInstance(screen, SubScreen)
+        # TODO: assert has parent
         self.assertEqual(screen.title, expectedscreenname)
         self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
         for button in screen.buttons:
@@ -53,7 +53,7 @@ class Test(unittest.TestCase):
         self.session.set_screen(Image.open(self.screenB))
         screen = self.parser.analyze(None)
         self.assertEqual(self.session.log, ['screencap()'])
-        self.assertIsInstance(screen, SubScreen)
+        # TODO: assert has parent
         self.assertEqual(screen.title, expectedscreenname)
         self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
         for button in screen.buttons:
@@ -71,7 +71,7 @@ class Test(unittest.TestCase):
         self.session.set_screen(Image.open(self.screenC))
         screen = self.parser.analyze(None)
         self.assertEqual(self.session.log, ['screencap()'])
-        self.assertNotIsInstance(screen, SubScreen)
+        # TODO: assert has no parent
         # self.assertEqual(screen.title, expectedscreenname)
         self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
         for button in screen.buttons:
@@ -89,7 +89,7 @@ class Test(unittest.TestCase):
         self.session.set_screen(Image.open(self.screenD))
         screen = self.parser.analyze(None)
         self.assertEqual(self.session.log, ['screencap()'])
-        self.assertIsInstance(screen, SubScreen)
+        # TODO: assert has parent
         self.assertEqual(screen.title, expectedscreenname)
         self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
         for button in screen.buttons:
@@ -107,7 +107,7 @@ class Test(unittest.TestCase):
         self.session.set_screen(Image.open(self.screenE))
         screen = self.parser.analyze(None)
         self.assertEqual(self.session.log, ['screencap()'])
-        self.assertIsInstance(screen, SubScreen)
+        # TODO: assert has parent
         self.assertEqual(screen.title, expectedscreenname)
         self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
         for button in screen.buttons:
