@@ -12,6 +12,7 @@ class Crawler(object):
         assert isinstance(parser, Parser)
         self.parser = parser
         self.graph = Graph()
+        self.lastfullscreen = None
 
     def click(self, button):
         assert isinstance(button, Button)
@@ -30,11 +31,7 @@ class Crawler(object):
             self.currentscreen = self.lastscreen
 
     def analyze(self):
-        screen = self.parser.analyze()
-
-        if isinstance(screen, SubScreen):
-            assert hasattr(self, 'lastfullscreen')
-            screen.parent = self.lastfullscreen
+        screen = self.parser.analyze(self.lastfullscreen)
 
         self.graph.add(screen, screen.buttons)
         self.currentscreen = screen

@@ -33,7 +33,7 @@ class Test(unittest.TestCase):
         expectedscreenname = 'Measurement Window'
         expectedbuttonmap = {'Units':'NPLCs', 'NPLCs':'1plc', 'Cancel':None, 'OK':None}
         self.session.set_screen(Image.open(self.screenA))
-        screen = self.parser.analyze()
+        screen = self.parser.analyze(None)
         self.assertEqual(self.session.log, ['screencap()'])
         self.assertIsInstance(screen, SubScreen)
         self.assertEqual(screen.title, expectedscreenname)
@@ -51,7 +51,7 @@ class Test(unittest.TestCase):
         expectedscreenname = 'Auto Delay'
         expectedbuttonmap = {'Off':None, 'On':None, 'Cancel':None}
         self.session.set_screen(Image.open(self.screenB))
-        screen = self.parser.analyze()
+        screen = self.parser.analyze(None)
         self.assertEqual(self.session.log, ['screencap()'])
         self.assertIsInstance(screen, SubScreen)
         self.assertEqual(screen.title, expectedscreenname)
@@ -69,9 +69,9 @@ class Test(unittest.TestCase):
         # expectedscreenname = 'UNIMPLEMENTED FOR TABS'
         expectedbuttonmap = {'Trigger Type':'Manual', 'Trigger Position':'50%', 'Trigger Delay':'0.00s'}
         self.session.set_screen(Image.open(self.screenC))
-        screen = self.parser.analyze()
+        screen = self.parser.analyze(None)
         self.assertEqual(self.session.log, ['screencap()'])
-        self.assertIsInstance(screen, Screen)
+        self.assertNotIsInstance(screen, SubScreen)
         # self.assertEqual(screen.title, expectedscreenname)
         self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
         for button in screen.buttons:
@@ -87,7 +87,7 @@ class Test(unittest.TestCase):
         expectedscreenname = 'Trigger Source'
         expectedbuttonmap = {'Dig I/O':None, 'TSP Link':None, 'BNC':None, 'Cancel':None}
         self.session.set_screen(Image.open(self.screenD))
-        screen = self.parser.analyze()
+        screen = self.parser.analyze(None)
         self.assertEqual(self.session.log, ['screencap()'])
         self.assertIsInstance(screen, SubScreen)
         self.assertEqual(screen.title, expectedscreenname)
@@ -105,7 +105,7 @@ class Test(unittest.TestCase):
         expectedscreenname = 'Auto Y-Scale Type'
         expectedbuttonmap = {'Off':None, 'Per Trace':None, 'Swim Lane':None, 'Common':None, 'Cancel':None}
         self.session.set_screen(Image.open(self.screenE))
-        screen = self.parser.analyze()
+        screen = self.parser.analyze(None)
         self.assertEqual(self.session.log, ['screencap()'])
         self.assertIsInstance(screen, SubScreen)
         self.assertEqual(screen.title, expectedscreenname)

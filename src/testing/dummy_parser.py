@@ -55,6 +55,6 @@ class DummyParser(Parser):
         raise NotImplementedError()
     def enter(self, number):
         raise NotImplementedError()
-    def analyze(self):
+    def analyze(self, _):
         self.numscreencaps = self.numscreencaps + 1
         return self.currentscreen

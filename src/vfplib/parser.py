@@ -245,7 +245,7 @@ class Parser(object):
             raise
         self.click(NUMERICAL_ENTRY_BUTTONS_MAP['OK'])
 
-    def analyze(self):
+    def analyze(self, parent=None):
         # store screencap image
         screen_im_orij = self.session.screencap()
         screen_im_rgb = screen_im_orij.convert('RGB')
@@ -270,7 +270,7 @@ class Parser(object):
             screen = NumericalEntry(screenname)
         else:
             if is_popup:
-                screen = SubScreen(screenname, buttons)
+                screen = SubScreen(screenname, buttons, parent)
             else:
                 screen = Screen(screenname, buttons)
         return screen
