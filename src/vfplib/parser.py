@@ -6,7 +6,6 @@ Created on Jun 4, 2014
 
 import pytesser
 
-from .session import Session
 from .ui_structure import Button, Screen, NumericalEntry, FieldButton
 
 from .improc import threshold_image, find_subimage
@@ -224,26 +223,25 @@ def convert_box_to_button(screen_im_rgb, button_box, popup_box=None):
 
 class Parser(object):
     def __init__(self, session):
-        assert isinstance(session, Session)
         self.session = session
 
     def click(self, button):
-        assert isinstance(button, Button)
         coord = button.coord
         self.session.click(*coord)
 
     def press(self, hardbuttonname):
-        assert isinstance(hardbuttonname, str)
-        self.session.press(HARD_BUTTONS[hardbuttonname])
+        try:
+            self.session.press(HARD_BUTTONS[str(hardbuttonname).lower()])
+        except KeyError, e:
+            raise ValueError('Invalid hard button name: ' + str(e.value))
 
     def enter(self, screen, number):
-        assert isinstance(screen, NumericalEntry)
         text = str(number)
         try:
             for char in text:
                 self.click(screen.buttonmap[char])
-        except:
-            raise
+        except KeyError, e:
+            raise ValueError('Invalid numerical entry button name: ' + str(e.value))
         self.click(screen.buttonmap['OK'])
 
     def analyze(self, parent=None):
