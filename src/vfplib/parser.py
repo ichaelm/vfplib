@@ -267,7 +267,7 @@ class Parser(object):
         screenname = OCR_title(screen_im_rgb, popup_box)
 
         if '1' in names and '2' in names and '3' in names:
-            screen = NumericalEntry(screenname)
+            screen = NumericalEntry(screenname, parent)
         else:
             if is_popup:
                 screen = SubScreen(screenname, buttons, parent)
