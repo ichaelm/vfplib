@@ -7,7 +7,7 @@ Created on Jun 4, 2014
 import pytesser
 
 from .session import Session
-from .ui_structure import Button, Screen, NumericalEntry, NUMERICAL_ENTRY_BUTTONS_MAP, FieldButton
+from .ui_structure import Button, Screen, NumericalEntry, FieldButton
 
 from .improc import threshold_image, find_subimage
 import templates
@@ -236,14 +236,15 @@ class Parser(object):
         assert isinstance(hardbuttonname, str)
         self.session.press(HARD_BUTTONS[hardbuttonname])
 
-    def enter(self, number):
+    def enter(self, screen, number):
+        assert isinstance(screen, NumericalEntry)
         text = str(number)
         try:
             for char in text:
-                self.click(NUMERICAL_ENTRY_BUTTONS_MAP[char])
+                self.click(screen.buttonmap[char])
         except:
             raise
-        self.click(NUMERICAL_ENTRY_BUTTONS_MAP['OK'])
+        self.click(screen.buttonmap['OK'])
 
     def analyze(self, parent=None):
         # store screencap image

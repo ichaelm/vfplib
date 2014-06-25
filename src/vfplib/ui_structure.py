@@ -4,21 +4,22 @@ Created on Jun 10, 2014
 @author: mschaffe
 '''
 
-NUMERICAL_ENTRY_MAP = {  # '1'      : (228,341),
-                       # '2'      : (311,341),
-                       # '3'      : (394,341),
-                       # '4'      : (228,258),
-                       # '5'      : (311,258),
-                       # '6'      : (394,258),
-                       # '7'      : (228,175),
-                       # '8'      : (311,175),
-                       # '9'      : (394,175),
-                       # '0'      : (228,424),
-                       # '+/-'    : (311,424),
-                       # '.'      : (394,424),
-                       # 'Clear'  : (560,258),
-                       # 'OK'     : (669,341),
-                       'Cancel' : (669, 424)
+NUMERICAL_ENTRY_MAP = {
+    '1'      : (228, 341),
+    '2'      : (311, 341),
+    '3'      : (394, 341),
+    '4'      : (228, 258),
+    '5'      : (311, 258),
+    '6'      : (394, 258),
+    '7'      : (228, 175),
+    '8'      : (311, 175),
+    '9'      : (394, 175),
+    '0'      : (228, 424),
+    '+/-'    : (311, 424),
+    '.'      : (394, 424),
+    'Clear'  : (560, 258),
+    'OK'     : (669, 341),
+    'Cancel' : (669, 424)
 }
 
 class Button(object):
@@ -52,15 +53,6 @@ class FieldButton(Button):
 
     def __str__(self):
         return 'FieldButton: ' + str(self.name)
-
-NUMERICAL_ENTRY_BUTTONS = []
-for name in NUMERICAL_ENTRY_MAP:
-    coord = NUMERICAL_ENTRY_MAP[name]
-    NUMERICAL_ENTRY_BUTTONS.append(Button(name, coord))
-
-NUMERICAL_ENTRY_BUTTONS_MAP = {}
-for button in NUMERICAL_ENTRY_BUTTONS:
-    NUMERICAL_ENTRY_BUTTONS_MAP[button.name] = button
 
 class Screen(object):
     """ Represents an immutable and unique UI screen.
@@ -97,8 +89,13 @@ class Screen(object):
 
 class NumericalEntry(Screen):
 
+    NUMERICAL_ENTRY_BUTTONS = []
+    for name in NUMERICAL_ENTRY_MAP:
+        coord = NUMERICAL_ENTRY_MAP[name]
+        NUMERICAL_ENTRY_BUTTONS.append(Button(name, coord))
+
     def __init__(self, title, parent=None):
-        super(NumericalEntry, self).__init__(title, NUMERICAL_ENTRY_BUTTONS, parent)
+        super(NumericalEntry, self).__init__(title, self.NUMERICAL_ENTRY_BUTTONS, parent)
 
     def __str__(self):
         return 'NumericalEntry: ' + str(self.title)
