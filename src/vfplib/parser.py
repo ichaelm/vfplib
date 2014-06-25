@@ -47,7 +47,7 @@ MAIN_MENU_MAP = {
 
 # ocr
 def OCR_image(im):
-    text = pytesser.image_to_string(im).strip('\n').replace('\n', ' ')
+    text = pytesser.image_to_string(im).replace('\n', ' ').strip(' ')
     return text
 
 # cornerbox processing
