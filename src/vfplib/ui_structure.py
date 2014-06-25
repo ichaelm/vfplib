@@ -4,8 +4,6 @@ Created on Jun 10, 2014
 @author: mschaffe
 '''
 
-from .hashset import FrozenHashSet
-
 NUMERICAL_ENTRY_MAP = {  # '1'      : (228,341),
                        # '2'      : (311,341),
                        # '3'      : (394,341),
@@ -74,15 +72,17 @@ class Screen(object):
     """
     def __init__(self, title, buttons, parent=None):
         self.title = title
-        self.buttons = FrozenHashSet(buttons)
+        self.buttonmap = {}
+        for button in buttons:
+            self.buttonmap[button.name] = button
         self.parent = parent
 
     def __hash__(self):
-        return hash((self.title, self.buttons, self.parent))
+        return hash((self.title, frozenset(self.buttonmap), self.parent))
 
     def __eq__(self, other):
         if isinstance(other, Screen):
-            return (self.title, self.buttons, self.parent) == (other.title, other.buttons, other.parent)
+            return (self.title, self.buttonmap, self.parent) == (other.title, other.buttonmap, other.parent)
         else:
             return False
 
@@ -96,6 +96,7 @@ class Screen(object):
         return mystr
 
 class NumericalEntry(Screen):
+
     def __init__(self, title, parent=None):
         super(NumericalEntry, self).__init__(title, NUMERICAL_ENTRY_BUTTONS, parent)
 

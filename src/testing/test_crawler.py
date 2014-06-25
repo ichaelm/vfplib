@@ -7,7 +7,6 @@ Created on Jun 4, 2014
 import unittest
 
 from vfplib.crawler import Crawler
-from vfplib.parser import Button
 import cPickle as pickle
 from testing.dummy_parser import DummyParser, dummyscreenmap
 
@@ -29,12 +28,12 @@ class Test(unittest.TestCase):
         for screen in graph:
             assert dummyscreenmap[screen.title] == screen
             print(str(screen) + ' has buttons:')
-            for button in screen.buttons:
+            for button in screen.buttonmap.values():
                 print('    ' + button.name)
             if len(set(graph.explored_edges(screen))) > 0:
                 print('  and points:')
                 for edge in graph.explored_edges(screen):
-                    assert edge == screen.buttons.find(Button(edge.name, (0, 0)))
+                    assert edge == screen.buttonmap[edge.name]
                     # assert graph.follow_edge(screen, edge).name == edge.name.partition('_to_')[2]
                     print('    through ' + str(edge) + ' to ' + str(graph.follow_edge(screen, edge)))
         print(str(interp.parser.numscreencaps) + ' total screencaps')

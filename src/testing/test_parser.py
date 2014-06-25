@@ -7,7 +7,7 @@ Created on Jun 4, 2014
 import unittest
 from dummy_session import DummySession
 from vfplib.parser import Parser
-from vfplib.ui_structure import Screen, FieldButton
+from vfplib.ui_structure import FieldButton
 
 from PIL import Image
 import os
@@ -37,8 +37,8 @@ class Test(unittest.TestCase):
         self.assertEqual(self.session.log, ['screencap()'])
         # TODO: assert has parent
         self.assertEqual(screen.title, expectedscreenname)
-        self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
-        for button in screen.buttons:
+        self.assertEqual(len(screen.buttonmap), len(expectedbuttonmap))
+        for button in screen.buttonmap.values():
             self.assertIn(button.name, expectedbuttonmap)
             if expectedbuttonmap[button.name] == None:
                 self.assertNotIsInstance(button, FieldButton)
@@ -55,8 +55,8 @@ class Test(unittest.TestCase):
         self.assertEqual(self.session.log, ['screencap()'])
         # TODO: assert has parent
         self.assertEqual(screen.title, expectedscreenname)
-        self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
-        for button in screen.buttons:
+        self.assertEqual(len(screen.buttonmap), len(expectedbuttonmap))
+        for button in screen.buttonmap.values():
             self.assertIn(button.name, expectedbuttonmap)
             if expectedbuttonmap[button.name] == None:
                 self.assertNotIsInstance(button, FieldButton)
@@ -73,8 +73,8 @@ class Test(unittest.TestCase):
         self.assertEqual(self.session.log, ['screencap()'])
         # TODO: assert has no parent
         # self.assertEqual(screen.title, expectedscreenname)
-        self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
-        for button in screen.buttons:
+        self.assertEqual(len(screen.buttonmap), len(expectedbuttonmap))
+        for button in screen.buttonmap.values():
             self.assertIn(button.name, expectedbuttonmap)
             if expectedbuttonmap[button.name] == None:
                 self.assertNotIsInstance(button, FieldButton)
@@ -91,8 +91,8 @@ class Test(unittest.TestCase):
         self.assertEqual(self.session.log, ['screencap()'])
         # TODO: assert has parent
         self.assertEqual(screen.title, expectedscreenname)
-        self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
-        for button in screen.buttons:
+        self.assertEqual(len(screen.buttonmap), len(expectedbuttonmap))
+        for button in screen.buttonmap.values():
             self.assertIn(button.name, expectedbuttonmap)
             if expectedbuttonmap[button.name] == None:
                 self.assertNotIsInstance(button, FieldButton)
@@ -109,8 +109,8 @@ class Test(unittest.TestCase):
         self.assertEqual(self.session.log, ['screencap()'])
         # TODO: assert has parent
         self.assertEqual(screen.title, expectedscreenname)
-        self.assertEqual(len(screen.buttons), len(expectedbuttonmap))
-        for button in screen.buttons:
+        self.assertEqual(len(screen.buttonmap), len(expectedbuttonmap))
+        for button in screen.buttonmap.values():
             self.assertIn(button.name, expectedbuttonmap)
             if expectedbuttonmap[button.name] == None:
                 self.assertNotIsInstance(button, FieldButton)
