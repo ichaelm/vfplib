@@ -229,9 +229,9 @@ class Test(unittest.TestCase):
 
     def testNumericalEntryStr(self):
         a = NumericalEntry('test title A')
-        b = NumericalEntry('test title B', a)  # unimplemented
+        b = NumericalEntry('test title B', a)
         self.assertEquals(str(a), 'NumericalEntry: test title A', 'NumericalEntry.__str__ incorrectly handles parentless NumericalEntry')
-        # self.assertEquals(str(b), 'NumericalEntry: test title B (child of NumericalEntry: test title A)', 'NumericalEntry.__str__ incorrectly handles NumericalEntry with parent') # unimplemented
+        self.assertEquals(str(b), 'NumericalEntry: test title B (child of NumericalEntry: test title A)', 'NumericalEntry.__str__ incorrectly handles NumericalEntry with parent')
 
 if __name__ == "__main__":
     unittest.main()

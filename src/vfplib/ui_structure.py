@@ -153,4 +153,7 @@ class NumericalEntry(Screen):
         super(NumericalEntry, self).__init__(title, self.NUMERICAL_ENTRY_BUTTONS, parent)
 
     def __str__(self):
-        return 'NumericalEntry: ' + str(self.title)
+        mystr = 'NumericalEntry: ' + str(self.title)
+        if self.parent != None:
+            mystr += ' (child of ' + str(self.parent) + ')'
+        return mystr
