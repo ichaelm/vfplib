@@ -80,11 +80,11 @@ class Test(unittest.TestCase):
 
     def testFieldButtonInit(self):
         a = FieldButton('test name A', (11, 22), 'setting A')
-        # b = FieldButton('test name A', (11, 22)) #unimplemented
+        b = FieldButton('test name A', (11, 22))
         self.assertEquals(a.name, 'test name A', 'FieldButton.__init__: Problem setting FieldButton.name')
         self.assertEquals(a.coord, (11, 22), 'FieldButton.__init__: Problem setting FieldButton.coord')
         self.assertEquals(a.setting, 'setting A', 'FieldButton.__init__: Problem setting FieldButton.setting')
-        # self.assertEquals(b.setting, None, 'FieldButton.__init__: Problem with FieldButton.setting default value')  # unimplemented
+        self.assertEquals(b.setting, None, 'FieldButton.__init__: Problem with FieldButton.setting default value')
 
     def testFieldButtonStr(self):
         a = FieldButton('test name A', (11, 22), 'setting A')

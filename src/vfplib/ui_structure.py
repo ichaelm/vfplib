@@ -76,7 +76,7 @@ class FieldButton(Button):
         setting (str): The button's current setting, as text inside the button.
 
     """
-    def __init__(self, name, coord, setting):
+    def __init__(self, name, coord, setting=None):
         super(FieldButton, self).__init__(name, coord)
         self.setting = setting
 
