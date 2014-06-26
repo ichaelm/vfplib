@@ -4,28 +4,29 @@ Created on Jun 5, 2014
 @author: mschaffe
 '''
 
-from .parser import Parser, Button
 from .graph import Graph
 
 class Crawler(object):
     def __init__(self, parser):
-        assert isinstance(parser, Parser)
         self.parser = parser
         self.graph = Graph()
         self.lastfullscreen = None
+        self.lastscreen = None
+        self.currentscreen = None
+        self.currentbutton = None
 
     def click(self, button):
-        assert isinstance(button, Button)
-        assert hasattr(self, 'currentscreen')
-        if button in self.currentscreen.buttonmap.values():
-            self.currentbutton = button
-            self.lastscreen = self.currentscreen
-            if self.lastscreen.parent == None:
-                self.lastfullscreen = self.lastscreen
-            self.parser.click(button)
+        if self.currentscreen == None:
+            raise RuntimeError('Crawler: Must run analyze() before click()')
+        if button not in self.currentscreen.buttonmap.values():
+            raise RuntimeError('Crawler: Cannot click ' + str(button) + ': not found on current screen')
+        self.currentbutton = button
+        self.lastscreen = self.currentscreen
+        if self.lastscreen.parent == None:
+            self.lastfullscreen = self.lastscreen
+        self.parser.click(button)
 
     def press(self, hardbuttonname):
-        assert isinstance(hardbuttonname, str)
         self.parser.press(hardbuttonname)
         if hardbuttonname == 'exit':
             self.currentscreen = self.lastscreen
@@ -34,10 +35,9 @@ class Crawler(object):
         screen = self.parser.analyze(self.lastfullscreen)
         self.graph.add(screen, screen.buttonmap.values())
         self.currentscreen = screen
-        if hasattr(self, 'lastscreen'):
-            assert hasattr(self, 'currentbutton')
+        if self.lastscreen != None:
+            assert self.currentbutton != None
             self.graph.add_edge(self.lastscreen, self.currentbutton, self.currentscreen)
-
         return screen
 
     def crawl(self):
