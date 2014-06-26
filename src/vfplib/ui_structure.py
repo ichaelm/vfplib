@@ -110,7 +110,7 @@ class Screen(object):
         self.parent = parent
 
     def __hash__(self):
-        return hash((self.title, frozenset(self.buttonmap), self.parent))
+        return hash((self.title, frozenset(self.buttonmap.values()), self.parent))
 
     def __eq__(self, other):
         if isinstance(other, Screen):

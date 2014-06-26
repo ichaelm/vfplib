@@ -173,9 +173,9 @@ class Test(unittest.TestCase):
             name = 'dummy name'
         try:
             _ = hash(Screen('', [Dummy2()]))
-            self.assertTrue(False, 'Screen.__hash__: Failed to throw TypeError on unhashable values in Screen.buttonmap')  # Fails because of dict hashing bug
+            self.assertTrue(False, 'Screen.__hash__: Failed to throw TypeError on unhashable values in Screen.buttonmap')
         except TypeError, e:
-            if str(e) != "unhashable type: 'Dummy'":
+            if str(e) != "unhashable type: 'Dummy2'":
                 raise
         try:
             _ = hash(Screen('', [Button('', (0, 0))], []))
@@ -208,7 +208,7 @@ class Test(unittest.TestCase):
         self.assertHashContract(d, e, 'different Screen.title')
         self.assertHashContract(d, f, 'different Screen.buttonmap')
         self.assertHashContract(d, g, 'different Screen.parent')
-        self.assertHashContract(d, h, 'one button has same name but different coord')  # Fails because of dict hashing bug
+        self.assertHashContract(d, h, 'one button has same name but different coord')
         self.assertHashContract(d, i, 'one button has same coord but different name')
         self.assertHashContract(d, d2, 'identical screen objects')
         self.assertHashContract(d, dsub, 'subclasses')
@@ -229,7 +229,7 @@ class Test(unittest.TestCase):
 
     def testNumericalEntryStr(self):
         a = NumericalEntry('test title A')
-        b = NumericalEntry('test title B', a) # unimplemented
+        b = NumericalEntry('test title B', a)  # unimplemented
         self.assertEquals(str(a), 'NumericalEntry: test title A', 'NumericalEntry.__str__ incorrectly handles parentless NumericalEntry')
         # self.assertEquals(str(b), 'NumericalEntry: test title B (child of NumericalEntry: test title A)', 'NumericalEntry.__str__ incorrectly handles NumericalEntry with parent') # unimplemented
 
