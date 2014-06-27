@@ -51,25 +51,24 @@ def OCR_image(im):
 
 # cornerbox processing
 
-def match_corners(ULcorners, URcorners, LLcorners, LRcorners):
-    radius = 1
+def match_corners(ULcorners, URcorners, LLcorners, LRcorners, radius=0):
     quads = []
     for ULcorner in ULcorners:
-        URcorner = ()
-        LLcorner = ()
-        LRcorner = ()
+        URcorner = None
+        LLcorner = None
+        LRcorner = None
         for prospect in URcorners:
-            if prospect[1] >= ULcorner[1] - radius and prospect[1] <= ULcorner[1] + radius and prospect[0] > ULcorner[0] and (URcorner == () or prospect[0] < URcorner[0]):
+            if prospect[1] >= ULcorner[1] - radius and prospect[1] <= ULcorner[1] + radius and prospect[0] > ULcorner[0] and (URcorner == None or prospect[0] < URcorner[0]):
                 URcorner = prospect
-        if len(URcorner) != 2: continue
+        if URcorner == None: continue
         for prospect in LLcorners:
-            if prospect[0] >= ULcorner[0] - radius and prospect[0] <= ULcorner[0] + radius and prospect[1] > ULcorner[1] and (LLcorner == () or prospect[1] < LLcorner[1]):  # fixed bug, 0 to 1
+            if prospect[0] >= ULcorner[0] - radius and prospect[0] <= ULcorner[0] + radius and prospect[1] > ULcorner[1] and (LLcorner == None or prospect[1] < LLcorner[1]):
                 LLcorner = prospect
-        if len(LLcorner) != 2: continue
+        if LLcorner == None: continue
         for prospect in LRcorners:
             if prospect[0] >= URcorner[0] - radius and prospect[0] <= URcorner[0] + radius and prospect[1] >= LLcorner[1] - radius and prospect[1] <= LLcorner[1] + radius:
                 LRcorner = prospect
-        if len(LRcorner) != 2: continue
+        if LRcorner == None: continue
         quads.append((ULcorner, URcorner, LLcorner, LRcorner))
     return quads
 
