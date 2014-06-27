@@ -73,10 +73,10 @@ def match_corners(ULcorners, URcorners, LLcorners, LRcorners, radius=0):
     return quads
 
 def quad_to_box(quad):
-    left = max(quad[0][0], quad[2][0]) + 4
-    upper = max(quad[0][1], quad[1][1]) + 4
-    right = min(quad[1][0], quad[3][0]) + 1
-    lower = min(quad[2][1], quad[3][1]) + 1
+    left = max(quad[0][0], quad[2][0])
+    upper = max(quad[0][1], quad[1][1])
+    right = min(quad[1][0], quad[3][0])
+    lower = min(quad[2][1], quad[3][1])
     return (left, upper, right, lower)
 
 def box_area(box):
@@ -87,6 +87,13 @@ def shrink_box(box, margin):
     upper = box[1] + margin
     right = box[2] - margin
     lower = box[3] - margin
+    return (left, upper, right, lower)
+
+def adjust_box(box):
+    left = box[0] + 4
+    upper = box[1] + 4
+    right = box[2]
+    lower = box[3]
     return (left, upper, right, lower)
 
 def box_to_label_box(box):
@@ -138,6 +145,7 @@ def get_popup_box(screen):
             if area < minarea:
                 minarea = area
                 popupbox = box
+        popupbox = adjust_box(popupbox)
         popupbox = shrink_box(popupbox, 5)
         return popupbox
     else:
@@ -166,7 +174,9 @@ def get_button_boxes(screen, popupbox=None):
     quads = match_corners(ULcorners, URcorners, LLcorners, LRcorners)
     boxes = []
     for quad in quads:
-        boxes.append(quad_to_box(quad))
+        box = quad_to_box(quad)
+        box = adjust_box(box)
+        boxes.append(box)
     return boxes
 
 def button_has_label(screen, button_box):
