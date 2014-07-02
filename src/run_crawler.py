@@ -20,7 +20,7 @@ if __name__ == '__main__':
         graph = interp.crawl()
         for screen in graph:
             print(str(screen) + ' has buttons:')
-            for button in screen.buttons:
+            for button in screen.buttonmap.values():
                 print('    ' + button.name)
             if len(set(graph.explored_edges(screen))) > 0:
                 print('  and points:')
