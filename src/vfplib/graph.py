@@ -38,90 +38,6 @@ class GraphEdge(object):
     def __str__(self):
         return 'GraphEdge: ' + str(self.value)
 
-''' old
-class GraphNode(object):
-    #immutable
-    def __init__(self, value):
-        self.value = value
-        self.edgemap = {}
-
-    def add_edge(self, key, target):
-        assert isinstance(target, GraphNode)
-        self.edgemap[key] = target
-
-    def __eq__(self, other):
-        if isinstance(other, self.__class__):
-            return self.value == other.value
-        else:
-            return False
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
-    def __hash__(self):
-        return hash(self.value)
-
-    def __str__(self):
-        return 'GraphNode: ' + str(self.value)
-
-class Graph():
-    def __init__(self):
-        self.hashmap = HashSet()
-
-    def add(self, item):
-        if GraphNode(item) not in self.hashmap:
-            self.hashmap.add(GraphNode(item))
-
-    def remove(self, item):
-        self.hashmap.remove(GraphNode(item))
-
-    def find(self, item):
-        return self.hashmap.find(GraphNode(item)).value
-
-    def add_edge(self, source, key, target):
-        sourcenode = self.hashmap.find(GraphNode(source))
-        targetnode = self.hashmap.find(GraphNode(target))
-        sourcenode.add_edge(key, targetnode)
-
-    def edges(self, source):
-        sourcenode = self.hashmap.find(GraphNode(source))
-        edgemap = {}
-        for key in sourcenode.edgemap:
-            edgemap[key] = sourcenode.edgemap[key].value
-        return edgemap
-
-    def __str__(self):
-        return 'Graph: ' + str(self.hashmap.hashTable)
-
-    def __len__(self):
-        return self.hashmap.__len__()
-
-    def __eq__(self, other):
-        return self.hashmap.__eq__(other)
-
-    def __ne__(self, other):
-        return self.hashmap.__ne__(other)
-
-    def __getitem__(self, key):
-        raise NotImplementedError()
-
-    def __setitem__(self, key, value):
-        raise NotImplementedError()
-
-    def __delitem__(self, key):
-        raise NotImplementedError()
-
-    def __iter__(self):
-        for v in self.hashmap:
-            yield v.value
-
-    def __contains__(self, item):
-        return self.hashmap.__contains__(item)
-
-    def __missing__(self):
-        raise NotImplementedError()
-'''
-# new
 class GraphNode(object):
     # immutable
     def __init__(self, value, edgevalues=None):
@@ -186,15 +102,6 @@ class Graph():
         sourcenode = self.hashmap.find(GraphNode(source))
         targetnode = self.hashmap.find(GraphNode(target))
         sourcenode.set_edge_target(key, targetnode)
-
-    '''
-    def edges(self, source):
-        sourcenode = self.hashmap.find(GraphNode(source))
-        edgemap = {}
-        for key in sourcenode.edgemap:
-            edgemap[key] = sourcenode.edgemap[key].value
-        return edgemap
-    '''
 
     def edges(self, source):
         sourcenode = self.hashmap.find(GraphNode(source))
