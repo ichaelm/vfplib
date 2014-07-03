@@ -19,7 +19,7 @@ class GraphEdge(object):
         return hash(self.value)
 
     def __eq__(self, other):
-        if isinstance(other, self.__class__):
+        if isinstance(other, GraphEdge):
             return self.value == other.value
         else:
             return False
@@ -65,7 +65,7 @@ class GraphNode(object):
         return hash(self.value)
 
     def __eq__(self, other):
-        if isinstance(other, self.__class__):
+        if isinstance(other, GraphNode):
             return self.value == other.value
         else:
             return False
@@ -142,7 +142,7 @@ class Graph():
         return self.nodemap.__len__()
 
     def __eq__(self, other):
-        if isinstance(other, self.__class__):
+        if isinstance(other, Graph):
             return self.nodemap == other.nodemap
         else:
             return False
