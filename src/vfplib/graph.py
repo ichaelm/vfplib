@@ -15,11 +15,24 @@ class GraphNode(object):
         for edge in edges:
             self.edgemap[edge] = None
 
+    def add_edge(self, edge):
+        self.edgemap[edge] = None
+
+    def remove_edge(self, edge):
+        del self.edgemap[edge]
+
     def set_edge_target(self, edge, target):
+        if edge not in self.edgemap:
+            raise KeyError(edge)
         self.edgemap[edge] = target
 
     def get_edge_target(self, edge):
         return self.edgemap[edge]
+
+    def remove_edge_target(self, edge):
+        if edge not in self.edgemap:
+            raise KeyError(edge)
+        self.edgemap[edge] = None
 
     def get_edges(self):
         for edge in self.edgemap:
@@ -55,7 +68,7 @@ class Graph():
         self.nodemap = {}
 
     def add(self, item, edgevalues=[]):
-        if item not in self.nodemap:
+        if item not in self.nodemap:  # this check should not be done by Graph
             self.nodemap[item] = GraphNode(item, edgevalues)
 
     def remove(self, item):
