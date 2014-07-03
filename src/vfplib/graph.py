@@ -15,9 +15,6 @@ class GraphEdge(object):
     def is_explored(self):
         return self.target != None
 
-    def __hash__(self):
-        return hash(self.value)
-
     def __eq__(self, other):
         if isinstance(other, GraphEdge):
             return self.value == other.value
@@ -27,21 +24,22 @@ class GraphEdge(object):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    def __hash__(self):
+        return hash(self.value)
+
     def __str__(self):
         return 'GraphEdge: ' + str(self.value)
 
 class GraphNode(object):
     # immutable
-    def __init__(self, value, edgevalues=None):
+    def __init__(self, value, edgevalues=[]):
         self.value = value
         self.edgemap = {}
-        if not edgevalues == None:
-            for edgevalue in edgevalues:
-                edge = GraphEdge(edgevalue)
-                self.edgemap[edgevalue] = edge
+        for edgevalue in edgevalues:
+            edge = GraphEdge(edgevalue)
+            self.edgemap[edgevalue] = edge
 
     def set_edge_target(self, edgevalue, target):
-        assert isinstance(target, GraphNode)
         self.edgemap[edgevalue].target = target
 
     def get_edges(self):
@@ -61,9 +59,6 @@ class GraphNode(object):
     def get_edge_target(self, edgevalue):
         return self.edgemap[edgevalue].target
 
-    def __hash__(self):
-        return hash(self.value)
-
     def __eq__(self, other):
         if isinstance(other, GraphNode):
             return self.value == other.value
@@ -72,6 +67,9 @@ class GraphNode(object):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    def __hash__(self):
+        return hash(self.value)
 
     def __str__(self):
         return 'GraphNode: ' + str(self.value)
