@@ -7,57 +7,33 @@ Created on Jun 6, 2014
 import random
 from collections import deque
 
-class GraphEdge(object):
-    def __init__(self, value, target=None):
-        self.value = value
-        self.target = target
-
-    def is_explored(self):
-        return self.target != None
-
-    def __eq__(self, other):
-        if isinstance(other, GraphEdge):
-            return self.value == other.value
-        else:
-            return False
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
-    def __hash__(self):
-        return hash(self.value)
-
-    def __str__(self):
-        return 'GraphEdge: ' + str(self.value)
-
 class GraphNode(object):
     # immutable
-    def __init__(self, value, edgevalues=[]):
+    def __init__(self, value, edges=[]):
         self.value = value
         self.edgemap = {}
-        for edgevalue in edgevalues:
-            edge = GraphEdge(edgevalue)
-            self.edgemap[edgevalue] = edge
+        for edge in edges:
+            self.edgemap[edge] = None
 
-    def set_edge_target(self, edgevalue, target):
-        self.edgemap[edgevalue].target = target
+    def set_edge_target(self, edge, target):
+        self.edgemap[edge] = target
+
+    def get_edge_target(self, edge):
+        return self.edgemap[edge]
 
     def get_edges(self):
-        for edge in self.edgemap.values():
+        for edge in self.edgemap:
             yield edge
 
     def get_explored_edges(self):
-        for edge in self.edgemap.values():
-            if edge.is_explored():
+        for edge in self.edgemap:
+            if self.edgemap[edge] != None:
                 yield edge
 
     def get_unexplored_edges(self):
-        for edge in self.edgemap.values():
-            if not edge.is_explored():
+        for edge in self.edgemap:
+            if self.edgemap[edge] == None:
                 yield edge
-
-    def get_edge_target(self, edgevalue):
-        return self.edgemap[edgevalue].target
 
     def __eq__(self, other):
         if isinstance(other, GraphNode):
@@ -78,7 +54,7 @@ class Graph():
     def __init__(self):
         self.nodemap = {}
 
-    def add(self, item, edgevalues=None):
+    def add(self, item, edgevalues=[]):
         if item not in self.nodemap:
             self.nodemap[item] = GraphNode(item, edgevalues)
 
@@ -95,18 +71,15 @@ class Graph():
 
     def edges(self, source):
         sourcenode = self.nodemap[source]
-        for edge in sourcenode.get_edges():
-            yield edge.value
+        return sourcenode.get_edges()
 
     def explored_edges(self, source):
         sourcenode = self.nodemap[source]
-        for edge in sourcenode.get_explored_edges():
-            yield edge.value
+        return sourcenode.get_explored_edges()
 
     def unexplored_edges(self, source):
         sourcenode = self.nodemap[source]
-        for edge in sourcenode.get_unexplored_edges():
-            yield edge.value
+        return sourcenode.get_unexplored_edges()
 
     def follow_edge(self, source, key):
         sourcenode = self.nodemap[source]
@@ -124,14 +97,14 @@ class Graph():
             currentpath = currentlocation[0]
             unexplorededges = set(currentnode.get_unexplored_edges())
             if len(unexplorededges) > 0:
-                unexplorededgevalue = random.sample(unexplorededges, 1)[0].value
+                unexplorededgevalue = random.sample(unexplorededges, 1)[0]
                 return currentpath + [unexplorededgevalue]
             else:
                 explorededges = set(currentnode.get_explored_edges())
                 for edge in explorededges:
-                    targetnode = edge.target
+                    targetnode = currentnode.get_edge_target(edge)
                     if targetnode not in touchednodes:
-                        nodequeue.append((currentpath + [edge.value], targetnode))
+                        nodequeue.append((currentpath + [edge], targetnode))
                         touchednodes.add(targetnode)
         # if this point is reached, nothing is unexplored
         return None
