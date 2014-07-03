@@ -10,17 +10,10 @@ from collections import deque
 class GraphEdge(object):
     def __init__(self, value, target=None):
         self.value = value
-        if target == None:
-            self.explored = False
-        else:
-            assert isinstance(target, GraphNode)
-            self.explored = True
-            self.target = target
-
-    def set_target(self, target):
-        assert isinstance(target, GraphNode)
-        self.explored = True
         self.target = target
+
+    def is_explored(self):
+        return self.target != None
 
     def __hash__(self):
         return hash(self.value)
@@ -49,7 +42,7 @@ class GraphNode(object):
 
     def set_edge_target(self, edgevalue, target):
         assert isinstance(target, GraphNode)
-        self.edgemap[edgevalue].set_target(target)
+        self.edgemap[edgevalue].target = target
 
     def get_edges(self):
         for edge in self.edgemap.values():
@@ -57,12 +50,12 @@ class GraphNode(object):
 
     def get_explored_edges(self):
         for edge in self.edgemap.values():
-            if edge.explored:
+            if edge.is_explored():
                 yield edge
 
     def get_unexplored_edges(self):
         for edge in self.edgemap.values():
-            if not edge.explored:
+            if not edge.is_explored():
                 yield edge
 
     def get_edge_target(self, edgevalue):
