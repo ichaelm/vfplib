@@ -38,13 +38,13 @@ class Test(unittest.TestCase):
         other = 'Button: test name A'
         class DummySubButton(Button):
             pass
-        asub = DummySubButton('test name C', (11, 22))
+        asub = DummySubButton('test name A', (11, 22))
         self.assertEqualityContract(a, a, True, 'same Button object')
         self.assertEqualityContract(a, b, False, 'different Button.name')
         self.assertEqualityContract(a, c, False, 'different Button.coord')
         self.assertEqualityContract(a, a2, True, 'identical Button objects')
         self.assertEqualityContract(a, other, False, 'non-Button objects')
-        self.assertEqualityContract(a, asub, False, 'subclasses')
+        self.assertEqualityContract(a, asub, True, 'subclasses')
 
     def testButtonHash(self):
         try:
@@ -66,7 +66,7 @@ class Test(unittest.TestCase):
         other = 'Button: test name A'
         class DummySubButton(Button):
             pass
-        asub = DummySubButton('test name C', (11, 22))
+        asub = DummySubButton('test name A', (11, 22))
         self.assertHashContract(a, a, 'same Button object')
         self.assertHashContract(a, b, 'different Button.name')
         self.assertHashContract(a, c, 'different Button.coord')
@@ -107,7 +107,7 @@ class Test(unittest.TestCase):
                 raise
         try:
             _ = Screen('invalid buttons', 'string')
-            self.assertTrue(False, 'Screen.__init__: Failed to throw TypeError exception on buttons without .name')
+            self.assertTrue(False, 'Screen.__init__: Failed to throw AttributeError exception on buttons without .name')
         except AttributeError, e:
             if str(e) != "'str' object has no attribute 'name'":
                 raise
