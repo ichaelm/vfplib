@@ -15,8 +15,8 @@ class GraphNode(object):
         for edge in edges:
             self.edgemap[edge] = None
 
-    def add_edge(self, edge):
-        self.edgemap[edge] = None
+    def add_edge(self, edge, target=None):
+        self.edgemap[edge] = target
 
     def remove_edge(self, edge):
         del self.edgemap[edge]
