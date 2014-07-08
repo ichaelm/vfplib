@@ -72,9 +72,6 @@ class Graph():
             raise ValueError('Item already exists in graph: ' + str(item))
         self.nodemap[item] = GraphNode(item, edgevalues)
 
-    def remove(self, item):
-        del self.nodemap[item]
-
     def find(self, item):
         return self.nodemap[item].value
 
