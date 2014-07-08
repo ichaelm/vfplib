@@ -78,10 +78,13 @@ class Graph():
     def find(self, item):
         return self.nodemap[item].value
 
-    def add_edge(self, source, key, target):
+    def add_edge(self, source, edge, target=None):
         sourcenode = self.nodemap[source]
-        targetnode = self.nodemap[target]
-        sourcenode.set_edge_target(key, targetnode)
+        if target:
+            targetnode = self.nodemap[target]
+            sourcenode.add_edge(edge, targetnode)
+        else:
+            sourcenode.add_edge(edge)
 
     def edges(self, source):
         sourcenode = self.nodemap[source]
