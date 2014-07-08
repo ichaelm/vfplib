@@ -68,8 +68,9 @@ class Graph():
         self.nodemap = {}
 
     def add(self, item, edgevalues=[]):
-        if item not in self.nodemap:  # this check should not be done by Graph
-            self.nodemap[item] = GraphNode(item, edgevalues)
+        if item in self.nodemap:
+            raise ValueError('Item already exists in graph: ' + str(item))
+        self.nodemap[item] = GraphNode(item, edgevalues)
 
     def remove(self, item):
         del self.nodemap[item]
@@ -144,17 +145,17 @@ class Graph():
         raise NotImplementedError()
 
     def __iter__(self):
-        for v in self.nodemap.values():
-            yield v.value
+        for v in self.nodemap:
+            yield v
 
     def __contains__(self, item):
-        return self.nodemap.values().__contains__(item)
+        return self.nodemap.__contains__(item)
 
     def __missing__(self):
         raise NotImplementedError()
 
     def __str__(self):
-        return 'Graph: ' + str(self.nodemap.values())
+        return 'Graph: ' + str(self.nodemap)
 
 
 

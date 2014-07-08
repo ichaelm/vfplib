@@ -33,7 +33,8 @@ class Crawler(object):
 
     def analyze(self):
         screen = self.parser.analyze(self.lastfullscreen)
-        self.graph.add(screen, screen.buttonmap.values())
+        if screen not in self.graph:
+            self.graph.add(screen, screen.buttonmap.values())
         self.currentscreen = screen
         if self.lastscreen != None:
             assert self.currentbutton != None
