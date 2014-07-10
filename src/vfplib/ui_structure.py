@@ -164,3 +164,36 @@ class NumericalEntry(Screen):
         if self.parent != None:
             mystr += ' (child of ' + str(self.parent) + ')'
         return mystr
+
+class Click():
+    """Represents the action of clicking a button while it has a certain setting, if any. Immutable.
+
+    The unique identity of a click is determined by its button object and its setting, or lack of such.
+
+    Attributes:
+        button (Button): The button that is clicked.
+        setting (str): The button's setting while it was clicked.
+
+    """
+
+    def __init__(self, button, setting=None):
+        self.button = button
+        self.setting = setting
+
+    def __hash__(self):
+        return hash((self.button, self.setting))
+
+    def __eq__(self, other):
+        if instanceof(self, Click):
+            return (self.button, self.setting) == (other.button, other.setting)
+        else:
+            return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __str__(self):
+        mystr = 'Click: ' + str(self.button)
+        if self.setting:
+            mystr += ' while set to: ' + str(self.setting)
+        return mystr
