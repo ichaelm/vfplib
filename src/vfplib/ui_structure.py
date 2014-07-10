@@ -79,6 +79,13 @@ class FieldButton(Button):
     def __init__(self, name, coord, setting=None):
         super(FieldButton, self).__init__(name, coord)
         self.setting = setting
+        self.settings = set()
+        if setting:
+            self.settings.add(setting)
+
+    def set_setting(self, setting):
+        self.setting = setting
+        self.settings.add(setting)
 
     def __str__(self):
         return 'FieldButton: ' + str(self.name)
