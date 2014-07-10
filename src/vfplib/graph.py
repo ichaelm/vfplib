@@ -123,6 +123,28 @@ class Graph():
         # if this point is reached, nothing is unexplored
         return None
 
+    # returns a list of edges that is the shortest path from source to target,
+    def shortest_path(self, source, target):
+        marked = set()
+        marked.add(source)
+        queue = deque()  # each entry is (path-to-node, node)
+        queue.append(([], source))
+        while len(queue) > 0:
+            currenttuple = queue.popleft()
+            currentpath = currenttuple[0]
+            current = currenttuple[1]
+            if current == target:
+                return currentpath
+            edges = self.explored_edges(current)
+            for edge in edges:
+                intermediate = self.follow_edge(current, edge)
+                if intermediate not in marked:
+                    marked.add(intermediate)
+                    queue.append((currentpath + [edge], intermediate))
+        # if this point is reached, path does not exist
+        return None
+
+
     def __len__(self):
         return self.nodemap.__len__()
 
