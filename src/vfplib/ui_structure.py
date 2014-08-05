@@ -116,6 +116,13 @@ class Screen(object):
             self.buttonmap[button.name] = button
         self.parent = parent
 
+    def get_settings(self):
+        settings = {}
+        for name in self.buttonmap:
+            if isinstance(self.buttonmap[name], FieldButton):
+                settings[name] = self.buttonmap[name].setting
+        return settings
+
     def __hash__(self):
         return hash((self.title, frozenset(self.buttonmap.values()), self.parent))
 

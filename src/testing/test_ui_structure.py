@@ -213,6 +213,30 @@ class Test(unittest.TestCase):
         self.assertHashContract(d, d2, 'identical screen objects')
         self.assertHashContract(d, dsub, 'subclasses')
 
+    def testScreenGetSettings(self):
+        ba = Button('ba', (0, 0))
+        bb = Button('bb', (0, 1))
+        bc = FieldButton('bc', (0, 2))
+        bd_1 = FieldButton('bd', (0, 3), 'bd_1')
+        bd_2 = FieldButton('bd', (0, 3), 'bd_2')
+        be_3 = FieldButton('be', (0, 4), 'be_3')
+        a = Screen('a', [])
+        b = Screen('b', [ba])
+        c = Screen('c', [ba, bb])
+        d = Screen('d', [ba, bb, bc])
+        e = Screen('e', [ba, bb, bc, bd_1])
+        f = Screen('f', [ba, bb, bc, bd_1, bd_2])
+        g = Screen('g', [ba, bb, bc, bd_1, be_3])
+        h = Screen('h', [ba, bb, bc, bd_1, bd_2, be_3])
+        self.assertEquals(a.get_settings(), {}, '')
+        self.assertEquals(b.get_settings(), {}, '')
+        self.assertEquals(c.get_settings(), {}, '')
+        self.assertEquals(d.get_settings(), {'bc': None}, '')
+        self.assertEquals(e.get_settings(), {'bc': None, 'bd': 'bd_1'}, '')
+        self.assertEquals(f.get_settings(), {'bc': None, 'bd': 'bd_2'}, '')  # maybe
+        self.assertEquals(g.get_settings(), {'bc': None, 'bd': 'bd_1', 'be': 'be_3'}, '')
+        self.assertEquals(h.get_settings(), {'bc': None, 'bd': 'bd_2', 'be': 'be_3'}, '')  # maybe
+
     def testScreenStr(self):
         a = Screen('test screen A', [])
         d = Screen('test screen C', [], a)
