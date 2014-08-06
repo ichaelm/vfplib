@@ -114,7 +114,8 @@ class Graph():
                 unexplorededgevalue = random.sample(unexplorededges, 1)[0]
                 return currentpath + [unexplorededgevalue]
             else:
-                explorededges = set(currentnode.get_explored_edges())
+                explorededges = list(currentnode.get_explored_edges())
+                random.shuffle(explorededges)
                 for edge in explorededges:
                     targetnode = currentnode.get_edge_target(edge)
                     if targetnode not in touchednodes:
