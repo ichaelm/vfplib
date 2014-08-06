@@ -197,7 +197,7 @@ class Click():
         return hash((self.button, self.setting))
 
     def __eq__(self, other):
-        if instanceof(self, Click):
+        if isinstance(other, Click):
             return (self.button, self.setting) == (other.button, other.setting)
         else:
             return False
