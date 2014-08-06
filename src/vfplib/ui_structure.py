@@ -186,6 +186,12 @@ class Click():
     def __init__(self, button, setting=None):
         self.button = button
         self.setting = setting
+        self.target = None
+        self.effect = {}
+
+    def set_target(self, target, effect={}):
+        self.target = target
+        self.effect = effect
 
     def __hash__(self):
         return hash((self.button, self.setting))
