@@ -68,7 +68,10 @@ class Crawler(object):
 
     def analyze(self):
         screen = self.parser.analyze(self.lastfullscreen)
-        buttons = screen.buttonmap.values()
+        if isinstance(screen, NumericalEntry):
+            buttons = [screen.buttonmap['Cancel']]
+        else:
+            buttons = screen.buttonmap.values()
         clicks = set()
         for button in buttons:
             if isinstance(button, FieldButton):
@@ -110,10 +113,7 @@ class Crawler(object):
                         break
                 else:
                     self.analyze()
-            if isinstance(self.currentscreen, NumericalEntry):
-                path = [Click(self.currentscreen.buttonmap['Cancel'])]
-            else:
-                path = self.graph.nearest_unexplored_edge(self.currentscreen)
+            path = self.graph.nearest_unexplored_edge(self.currentscreen)
         return self.graph
 
     def __str__(self):
