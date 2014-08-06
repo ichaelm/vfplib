@@ -123,6 +123,17 @@ class Screen(object):
                 settings[name] = self.buttonmap[name].setting
         return settings
 
+    def get_current_clicks(self):
+        settings = self.get_settings()
+        clicks = set()
+        for buttonname in self.buttonmap:
+            if buttonname in settings:
+                click = Click(self.buttonmap[buttonname], settings[buttonname])
+            else:
+                click = Click(self.buttonmap[buttonname])
+            clicks.add(click)
+        return clicks
+
     def __hash__(self):
         return hash((self.title, frozenset(self.buttonmap.values()), self.parent))
 
