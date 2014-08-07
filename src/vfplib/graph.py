@@ -136,7 +136,8 @@ class Graph():
             current = currenttuple[1]
             if current == target:
                 return currentpath
-            edges = self.explored_edges(current)
+            edges = list(self.explored_edges(current))
+            random.shuffle(edges)
             for edge in edges:
                 intermediate = self.follow_edge(current, edge)
                 if intermediate not in marked:
