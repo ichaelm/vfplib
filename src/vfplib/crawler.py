@@ -93,7 +93,7 @@ class Crawler(object):
     def crawl(self):
         self.analyze()
         path = self.graph.nearest_unexplored_edge(self.currentscreen)
-        while path != None:
+        while path:
             for click in path:
                 clickedclicks = set(self.graph.explored_edges(self.currentscreen))
                 currentclicks = self.currentscreen.get_current_clicks()
@@ -118,7 +118,7 @@ class Crawler(object):
     def goto(self, targetscreen):
         self.analyze()
         path = self.graph.shortest_path(self.currentscreen, targetscreen)
-        while path != None:
+        while path:
             for click in path:
                 clickedclicks = set(self.graph.explored_edges(self.currentscreen))
                 currentclicks = self.currentscreen.get_current_clicks()
