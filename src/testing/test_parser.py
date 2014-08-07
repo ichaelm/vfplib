@@ -60,6 +60,9 @@ class Test(unittest.TestCase):
     def testOCRLabel(self):
         pass  # unimplemented test
 
+    def testOCRHelp(self):
+        pass  # unimplemented test
+
     def ConvertBoxToButton(self):
         pass  # unimplemented test
 
@@ -79,6 +82,9 @@ class Test(unittest.TestCase):
         pass  # unimplemented test
 
     def testParserGetFocus(self):
+        pass  # unimplemented test
+
+    def testParserGetHelpText(self):
         pass  # unimplemented test
 
     def testParserStr(self):

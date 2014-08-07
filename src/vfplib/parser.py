@@ -232,6 +232,13 @@ def OCR_label(screen_im_rgb, label_box):
     label_text = OCR_image(label_im_bw)
     return label_text
 
+def OCR_help(screen_im_rgb):
+    help_box = (20, 30, 780, 78)
+    screen_im_mono = screen_im_rgb.split()[2]
+    help_im_mono = screen_im_mono.crop(help_box)
+    help_text = OCR_image(help_im_mono)
+    return help_text
+
 def convert_box_to_button(screen_im_rgb, button_box, popup_box=None):
     button_text = OCR_button(screen_im_rgb, button_box)
     coord = box_center(button_box)
@@ -320,6 +327,13 @@ class Parser(object):
             return button
         else:
             return None
+
+    def get_help_text(self):
+        # store screencap image
+        screen_im_orij = self.session.screencap()
+        screen_im_rgb = screen_im_orij.convert('RGB')
+        help_text = OCR_help(screen_im_rgb)
+        return help_text
 
     def __str__(self):
         return 'Parser on' + str(self.session)
