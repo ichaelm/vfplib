@@ -100,11 +100,12 @@ class Crawler(object):
                 clickedclicks = set(self.graph.explored_edges(self.currentscreen))
                 currentclicks = self.currentscreen.get_current_clicks()
                 if click not in currentclicks:
-                    randomclick = random.sample(currentclicks, 1)[0]
                     newclick = Click(self.currentscreen.buttonmap[click.button.name], self.currentscreen.buttonmap[click.button.name].setting)
-                    print('want to do ' + str(click) + ' instead doing ' + str(newclick) + ' (used to do ' + str(randomclick) + ')')
+                    print('want to do ' + str(click) + ' instead doing ' + str(newclick))
                     click = newclick
                 self.click(click)
+                self.analyze()  # temp
+                break  # temp
                 if click in clickedclicks:
                     expectedcurrentscreen = self.graph.follow_edge(self.lastscreen, click)
                     self.analyze()
@@ -115,6 +116,30 @@ class Crawler(object):
                     self.analyze()
             path = self.graph.nearest_unexplored_edge(self.currentscreen)
         return self.graph
+
+    def goto(self, targetscreen):
+        self.analyze()
+        path = self.graph.shortest_path(self.currentscreen, targetscreen)
+        while path != None:
+            for click in path:
+                clickedclicks = set(self.graph.explored_edges(self.currentscreen))
+                currentclicks = self.currentscreen.get_current_clicks()
+                if click not in currentclicks:
+                    newclick = Click(self.currentscreen.buttonmap[click.button.name], self.currentscreen.buttonmap[click.button.name].setting)
+                    print('want to do ' + str(click) + ' instead doing ' + str(newclick))
+                    click = newclick
+                self.click(click)
+                self.analyze()  # temp
+                break  # temp
+                if click in clickedclicks:
+                    expectedcurrentscreen = self.graph.follow_edge(self.lastscreen, click)
+                    self.analyze()
+                    break  # temp
+                    if self.currentscreen != expectedcurrentscreen:
+                        break
+                else:
+                    self.analyze()
+            path = self.graph.shortest_path(self.currentscreen, targetscreen)
 
     def __str__(self):
         return 'Crawler on ' + str(self.parser)
