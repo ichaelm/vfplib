@@ -99,7 +99,7 @@ def adjust_box(box):
 def box_to_label_box(box):
     lower = box[1] + 33
     right = box[0] - 5
-    upper = lower - 80
+    upper = lower - 51
     left = right - 220
     return (left, upper, right, lower)
 
