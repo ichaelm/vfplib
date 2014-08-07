@@ -44,8 +44,6 @@ class Crawler(object):
         setting = click.setting
         if setting:
             assert isinstance(button, FieldButton)
-        else:
-            assert not isinstance(button, FieldButton)
         if self.currentscreen == None:
             raise RuntimeError('Crawler: Must run analyze() before click()')
         if button not in self.currentscreen.buttonmap.values():
