@@ -45,6 +45,9 @@ class Test(unittest.TestCase):
     def testGetButtonBoxes(self):
         pass  # unimplemented test
 
+    def testGetSelectedButtonBoxes(self):
+        pass  # unimplemented test
+
     def testButtonHasLabel(self):
         pass  # unimplemented test
 
@@ -58,6 +61,27 @@ class Test(unittest.TestCase):
         pass  # unimplemented test
 
     def ConvertBoxToButton(self):
+        pass  # unimplemented test
+
+    def testParserInit(self):
+        pass  # unimplemented test
+
+    def testParserClick(self):
+        pass  # unimplemented test
+
+    def testParserPress(self):
+        pass  # unimplemented test
+
+    def testParserEnter(self):
+        pass  # unimplemented test
+
+    def testParserAnalyze(self):
+        pass  # unimplemented test
+
+    def testParserGetFocus(self):
+        pass  # unimplemented test
+
+    def testParserStr(self):
         pass  # unimplemented test
 
 if __name__ == "__main__":

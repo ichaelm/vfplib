@@ -179,6 +179,26 @@ def get_button_boxes(screen, popupbox=None):
         boxes.append(box)
     return boxes
 
+def get_selected_button_boxes(screen, popupbox=None):
+    popup = (popupbox != None)
+    if popup:
+        ULcorners = find_subimage(screen, templates.popupButtonSelected.UL, popupbox)
+        URcorners = find_subimage(screen, templates.popupButtonSelected.UR, popupbox)
+        LLcorners = find_subimage(screen, templates.popupButtonSelected.LL, popupbox)
+        LRcorners = find_subimage(screen, templates.popupButtonSelected.LR, popupbox)
+    else:
+        ULcorners = find_subimage(screen, templates.buttonSelected.UL)
+        URcorners = find_subimage(screen, templates.buttonSelected.UR)
+        LLcorners = find_subimage(screen, templates.buttonSelected.LL)
+        LRcorners = find_subimage(screen, templates.buttonSelected.LR)
+    quads = match_corners(ULcorners, URcorners, LLcorners, LRcorners)
+    boxes = []
+    for quad in quads:
+        box = quad_to_box(quad)
+        box = adjust_box(box)
+        boxes.append(box)
+    return boxes
+
 def button_has_label(screen, button_box):
     magic_color = (13, 192, 255)
     label_box = box_to_label_finding_box(button_box)
@@ -282,6 +302,24 @@ class Parser(object):
             else:
                 screen = Screen(screenname, buttons)
         return screen
+
+    def get_focus(self):
+        # store screencap image
+        screen_im_orij = self.session.screencap()
+        screen_im_rgb = screen_im_orij.convert('RGB')
+
+        # determine if popup or not, and store popup box if it is
+        popup_box = get_popup_box(screen_im_rgb)
+        is_popup = (popup_box != None)
+
+        # find button box
+        button_boxes = get_selected_button_boxes(screen_im_rgb, popup_box)
+        if len(button_boxes) == 1:
+            button_box = button_boxes[0]
+            button = convert_box_to_button(screen_im_rgb, button_box, popup_box)
+            return button
+        else:
+            return None
 
     def __str__(self):
         return 'Parser on' + str(self.session)
