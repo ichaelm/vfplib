@@ -145,6 +145,11 @@ class Graph():
         # if this point is reached, path does not exist
         return None
 
+    def fully_explored(self):
+        for node in self.nodemap.values():
+            if len(list(node.get_unexplored_edges())) > 0:
+                return False
+        return True
 
     def __len__(self):
         return self.nodemap.__len__()

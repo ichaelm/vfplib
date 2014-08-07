@@ -18,6 +18,11 @@ if __name__ == '__main__':
         dut = Session(IP)
         interp = Crawler(Parser(dut))
         graph = interp.crawl()
+        if graph.fully_explored():
+            print('Fully explored')
+        else:
+            print('INCOMPLETE')
+            print('Exploration was blocked by unexpected behavior')
         for screen in graph:
             print(str(screen) + ' has buttons:')
             for button in screen.buttonmap.values():
