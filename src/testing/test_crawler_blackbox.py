@@ -33,7 +33,7 @@ class Test(unittest.TestCase):
             if len(set(graph.explored_edges(screen))) > 0:
                 print('  and points:')
                 for edge in graph.explored_edges(screen):
-                    assert edge == screen.buttonmap[edge.name]
+                    assert edge.button == screen.buttonmap[edge.button.name]
                     # assert graph.follow_edge(screen, edge).name == edge.name.partition('_to_')[2]
                     print('    through ' + str(edge) + ' to ' + str(graph.follow_edge(screen, edge)))
         print(str(interp.parser.numscreencaps) + ' total screencaps')

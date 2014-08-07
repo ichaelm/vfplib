@@ -4,9 +4,9 @@ Created on Jun 10, 2014
 @author: mschaffe
 '''
 
-from vfplib.parser import Screen, Button, Parser
+from vfplib.parser import Screen, Button, Parser, FieldButton
 
-dummyscreenmap = {'root' : Screen('root', [Button('root_to_A_if_x=1;B', (0, 0)),
+dummyscreenmap = {'root' : Screen('root', [FieldButton('root_to_A_if_x=1;B', (0, 0), 'x=0'),
                                            Button('root_to_C', (0, 0)), ]),
                   'A'    : Screen('A', [Button('A_to_root_set_x=0', (0, 0)),
                                         Button('A_to_root_set_x=1', (0, 0)),
@@ -51,6 +51,8 @@ class DummyParser(Parser):
         assert sourcename == self.currentscreen.title
         assert targetname in dummyscreenmap.keys()
         self.currentscreen = dummyscreenmap[targetname]
+        if setting != '':
+            self.currentscreen.buttonmap['root_to_A_if_x=1;B'].set_setting(setting)  # non-general
     def press(self, hardbuttonname):
         raise NotImplementedError()
     def enter(self, number):
