@@ -62,14 +62,11 @@ class Session(object):
         data = urllib2.urlopen('http://' + self._address + '/images/fp.png?' + str(self._sessionid))
         image_file = io.BytesIO(data.read())
         im = Image.open(image_file)
-        requests = 2
         while im.size[0] < 20:
             time.sleep(SCREENCAP_DELAY)
             data = urllib2.urlopen('http://' + self._address + '/images/fp.png?' + str(self._sessionid))
             image_file = io.BytesIO(data.read())
             im = Image.open(image_file)
-            requests = requests + 1
-        print requests * SCREENCAP_DELAY
         return im
 
     def click(self, x, y):
