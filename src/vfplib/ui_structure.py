@@ -220,4 +220,6 @@ class Click():
         mystr = 'Click: ' + str(self.button)
         if self.setting:
             mystr += ' while set to: ' + str(self.setting)
+        if self.target:
+            mystr += ' causing: ' + str(self.effect)
         return mystr
