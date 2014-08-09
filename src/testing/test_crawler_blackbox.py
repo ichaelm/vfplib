@@ -10,12 +10,6 @@ from vfplib.crawler import Crawler
 import cPickle as pickle
 from testing.dummy_parser import DummyParser, dummyscreenmap
 
-# 'test' or 'real' or 'load'
-IP = '134.63.79.71'
-LOAD_PATH = 'out.pickle'
-SAVE = False
-SAVE_PATH = 'out.pickle'
-
 class Test(unittest.TestCase):
 
 
@@ -37,11 +31,6 @@ class Test(unittest.TestCase):
                     # assert graph.follow_edge(screen, edge).name == edge.name.partition('_to_')[2]
                     print('    through ' + str(edge) + ' to ' + str(graph.follow_edge(screen, edge)))
         print(str(interp.parser.numscreencaps) + ' total screencaps')
-        if SAVE:
-            pickle.dump(graph, open(SAVE_PATH, 'wb'), protocol=2)
-    def tearDown(self):
-        pass
-
 
     def testName(self):
         pass
