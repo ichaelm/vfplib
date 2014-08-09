@@ -31,13 +31,14 @@ def merge_screens(source, target):
     return diffs
 
 class Crawler(object):
-    def __init__(self, parser):
+    def __init__(self, parser, verbose=False):
         self.parser = parser
         self.graph = Graph()
         self.lastfullscreen = None
         self.lastscreen = None
         self.currentscreen = None
         self.currentclick = None
+        self.verbose = verbose
 
     def click(self, click):
         button = click.button
@@ -57,10 +58,11 @@ class Crawler(object):
         self.lastscreen = self.currentscreen
         if self.lastscreen.parent == None:
             self.lastfullscreen = self.lastscreen
-        if setting:
-            print('Clicking ' + click.button.name + ' while set to [' + click.setting + ']')
-        else:
-            print('Clicking ' + click.button.name)
+        if self.verbose:
+            if setting:
+                print('Clicking ' + click.button.name + ' while set to [' + click.setting + ']')
+            else:
+                print('Clicking ' + click.button.name)
         self.parser.click(button)
 
     def press(self, hardbuttonname):
@@ -81,10 +83,11 @@ class Crawler(object):
             else:
                 clicks.add(Click(button))
         if screen not in self.graph:
-            if screen.parent:
-                print('Identified new screen: ' + str(screen.title) + ' (child of ' + str(screen.parent.title) + ')')
-            else:
-                print('Identified new screen: ' + str(screen.title))
+            if self.verbose:
+                if screen.parent:
+                    print('Identified new screen: ' + str(screen.title) + ' (child of ' + str(screen.parent.title) + ')')
+                else:
+                    print('Identified new screen: ' + str(screen.title))
             self.graph.add(screen, clicks)
         else:
             diffs = merge_screens(screen, self.graph.nodemap[screen].value)
@@ -107,7 +110,8 @@ class Crawler(object):
                 currentclicks = self.currentscreen.get_current_clicks()
                 if click not in currentclicks:
                     newclick = Click(self.currentscreen.buttonmap[click.button.name], self.currentscreen.buttonmap[click.button.name].setting)
-                    print('Cant click ' + str(click.button.name) + " while set to [" + str(click.setting) + "]")
+                    if self.verbose:
+                        print('Cant click ' + str(click.button.name) + " while set to [" + str(click.setting) + "]")
                     click = newclick
                 self.click(click)
                 self.analyze()  # temp
@@ -132,7 +136,8 @@ class Crawler(object):
                 currentclicks = self.currentscreen.get_current_clicks()
                 if click not in currentclicks:
                     newclick = Click(self.currentscreen.buttonmap[click.button.name], self.currentscreen.buttonmap[click.button.name].setting)
-                    print('want to do ' + str(click) + ' instead doing ' + str(newclick))
+                    if self.verbose:
+                        print('want to do ' + str(click) + ' instead doing ' + str(newclick))
                     click = newclick
                 self.click(click)
                 self.analyze()  # temp
