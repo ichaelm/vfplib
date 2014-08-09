@@ -54,7 +54,8 @@ class DummyParser(Parser):
         assert targetname in self.dummyscreenmap.keys()
         self.currentscreen = self.dummyscreenmap[targetname]
         if setting != '':
-            self.currentscreen.buttonmap['root_to_A_if_x=1;B'].set_setting(setting)  # non-general
+            self.currentscreen.buttonmap['root_to_A_if_x=1;B'].setting = setting  # non-general
+            self.currentscreen.buttonmap['root_to_A_if_x=1;B'].settings = set([setting])  # non-general
     def press(self, hardbuttonname):
         raise NotImplementedError()
     def enter(self, number):
