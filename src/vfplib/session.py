@@ -11,9 +11,9 @@ import urllib2
 from PIL import Image
 
 # delay between POST commands (multiply by 2 for delay per input operation)
-COMMAND_DELAY = 0.05
+DEFAULT_COMMAND_DELAY = 0.05
 # delay between screen captures (multiply by 2 for delay per screen capture operation)
-SCREENCAP_DELAY = .2
+DEFAULT_SCREENCAP_DELAY = .2
 
 class Session(object):
     """Represents a Virtual Front Panel session.
@@ -39,6 +39,8 @@ class Session(object):
             # server responded with error message, such as 404
             raise
         self._sessionid = int(response.partition('=')[2].partition('$')[0])  # parses response of the form 'session=XXX$symbols'
+        self.screencap_delay = DEFAULT_SCREENCAP_DELAY
+        self.command_delay = DEFAULT_COMMAND_DELAY
 
     @property
     def address(self):
@@ -56,14 +58,14 @@ class Session(object):
         Returns a PIL image object
         """
         _ = urllib2.urlopen('http://' + self._address + '/images/fp.png?' + str(self._sessionid))
-        time.sleep(SCREENCAP_DELAY)
+        time.sleep(self.screencap_delay)
         # _ = urllib2.urlopen('http://' + self._address + '/images/fp.png?' + str(self._sessionid))
-        # time.sleep(SCREENCAP_DELAY)
+        # time.sleep(self.screencap_delay)
         data = urllib2.urlopen('http://' + self._address + '/images/fp.png?' + str(self._sessionid))
         image_file = io.BytesIO(data.read())
         im = Image.open(image_file)
         while im.size[0] < 20:
-            time.sleep(SCREENCAP_DELAY)
+            time.sleep(self.screencap_delay)
             data = urllib2.urlopen('http://' + self._address + '/images/fp.png?' + str(self._sessionid))
             image_file = io.BytesIO(data.read())
             im = Image.open(image_file)
@@ -72,25 +74,25 @@ class Session(object):
     def click(self, x, y):
         """Sends command to click at (x,y)"""
         urllib2.urlopen('http://' + self._address + '/ajax_proc', 'function=2&x1=' + str(x) + '&y1=' + str(y) + '&session=' + str(self._sessionid))
-        time.sleep(COMMAND_DELAY)
+        time.sleep(self.command_delay)
         urllib2.urlopen('http://' + self._address + '/ajax_proc', 'function=3&x1=' + str(x) + '&y1=' + str(y) + '&x2=' + str(x) + '&y2=' + str(y) + '&session=' + str(self._sessionid))
-        time.sleep(COMMAND_DELAY)
+        time.sleep(self.command_delay)
 
     def drag(self, x1, y1, x2, y2):
         """Sends command to drag screen from (x1,y1) to (x2,y2)."""
         # Does not work
         urllib2.urlopen('http://' + self._address + '/ajax_proc', 'function=2&x1=' + str(x1) + '&y1=' + str(y1) + '&session=' + str(self._sessionid))
-        time.sleep(COMMAND_DELAY)
+        time.sleep(self.command_delay)
         urllib2.urlopen('http://' + self._address + '/ajax_proc', 'function=4&x1=' + str(x1) + '&y1=' + str(y1) + '&x2=' + str(x2) + '&y2=' + str(y2) + '&session=' + str(self._sessionid))
         # TODO: missing dir parameter in second command
-        time.sleep(COMMAND_DELAY)
+        time.sleep(self.command_delay)
 
     def press(self, buttonnumber):
         """Sends command to press the physical button with the given number."""
         urllib2.urlopen('http://' + self._address + '/ajax_proc', 'function=7&button=' + str(buttonnumber) + '&session=' + str(self._sessionid))
-        time.sleep(COMMAND_DELAY)
+        time.sleep(self.command_delay)
         urllib2.urlopen('http://' + self._address + '/ajax_proc', 'function=8&button=' + str(buttonnumber) + '&session=' + str(self._sessionid))
-        time.sleep(COMMAND_DELAY)
+        time.sleep(self.command_delay)
 
     def __hash__(self):
         return hash((self._address, self._sessionid))
