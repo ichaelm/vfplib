@@ -12,8 +12,7 @@ from testing.dummy_parser import DummyParser, dummyscreenmap
 
 class Test(unittest.TestCase):
 
-
-    def setUp(self):
+    def iteration(self):
         # dut = DummySession()
         interp = Crawler(DummyParser())
         graph = interp.crawl()
@@ -32,8 +31,10 @@ class Test(unittest.TestCase):
                     print('    through ' + str(edge) + ' to ' + str(graph.follow_edge(screen, edge)))
         print(str(interp.parser.numscreencaps) + ' total screencaps')
 
-    def testName(self):
-        pass
+    def testIterations(self):
+        for i in xrange(1000):
+            print('ITERATION ' + str(i))
+            self.iteration()
 
 if __name__ == "__main__":
     # import sys;sys.argv = ['', 'Test.testName']
