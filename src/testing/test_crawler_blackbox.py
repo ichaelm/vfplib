@@ -36,12 +36,19 @@ class Test(unittest.TestCase):
                         print('    through ' + str(edge) + ' to ' + str(graph.follow_edge(screen, edge)))
         if verbose:
             print(str(interp.parser.numscreencaps) + ' total screencaps')
+        self.cumsum += interp.parser.numscreencaps
+        self.max = max(interp.parser.numscreencaps, self.max)
 
     def testIterations(self):
+        self.cumsum = 0
+        self.max = 0
         for i in xrange(1000):
             if verbose:
                 print('ITERATION ' + str(i))
             self.iteration()
+        print('Average screencaps: ' + str(float(self.cumsum) / 1000))
+        print('Worst-case screencaps: ' + str(self.max))
+
 
 if __name__ == "__main__":
     # import sys;sys.argv = ['', 'Test.testName']
