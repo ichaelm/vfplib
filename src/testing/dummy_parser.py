@@ -25,9 +25,10 @@ defaultstate = {'x' : '0'}
 
 class DummyParser(Parser):
     def __init__(self):
-        self.currentscreen = dummyscreenmap['root']
+        self.dummyscreenmap = copy.deepcopy(dummyscreenmap)
+        self.currentscreen = self.dummyscreenmap['root']
         self.numscreencaps = 0
-        self.state = defaultstate
+        self.state = copy.deepcopy(defaultstate)
     def click(self, button):
         assert isinstance(button, Button)
         sourcename = button.name.partition('_to_')[0]
@@ -50,8 +51,8 @@ class DummyParser(Parser):
             else:
                 targetname = falsetarget
         assert sourcename == self.currentscreen.title
-        assert targetname in dummyscreenmap.keys()
-        self.currentscreen = dummyscreenmap[targetname]
+        assert targetname in self.dummyscreenmap.keys()
+        self.currentscreen = self.dummyscreenmap[targetname]
         if setting != '':
             self.currentscreen.buttonmap['root_to_A_if_x=1;B'].set_setting(setting)  # non-general
     def press(self, hardbuttonname):
