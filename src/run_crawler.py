@@ -11,8 +11,12 @@ from vfplib.parser import Parser
 from vfplib.session import Session
 from vfplib.ui_structure import Click, NumericalEntry
 import cPickle as pickle
+import sys
 
-IP = '134.63.78.160'
+if len(sys.argv) != 2:
+    raise RuntimeError('run_crawler requires an IP address')
+
+IP = sys.argv[1]
 LOAD_PATH = ''
 SAVE = True
 LOAD = False
