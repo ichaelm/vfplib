@@ -82,6 +82,7 @@ class Crawler(object):
                 clicks.add(Click(button, button.setting))
             else:
                 clicks.add(Click(button))
+        effect = None
         if screen not in self.graph:
             if self.verbose:
                 if screen.parent:
@@ -90,14 +91,21 @@ class Crawler(object):
                     print('Identified new screen: ' + str(screen.title))
             self.graph.add(screen, clicks)
         else:
+            assert self.currentclick  # assume self.currentclick is defined, because the graph is not empty
             diffs = merge_screens(screen, self.graph.nodemap[screen].value)
+            countnumdiffs = 0
             for buttonname in diffs:
                 diff = diffs[buttonname]
                 for setting in diff:
+                    countnumdiffs += 1
+                    assert countnumdiffs <= 1  # assuming parser returned at most one button with one setting
                     self.graph.add_edge(screen, Click(screen.buttonmap[buttonname], setting))
+                    effect = {buttonname: setting}
         self.currentscreen = screen
         if self.lastscreen != None:
             assert self.currentclick != None
+            if effect:
+                self.currentclick.set_target(self.currentscreen, effect)
             self.graph.add_edge(self.lastscreen, self.currentclick, self.currentscreen)
         return screen
 
