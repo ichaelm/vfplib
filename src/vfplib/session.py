@@ -65,8 +65,6 @@ class Session(object):
         """
         _ = urllib2.urlopen('http://' + self.address + '/images/fp.png?' + str(self.sessionid))
         time.sleep(self.screencap_delay)
-        # _ = urllib2.urlopen('http://' + self.address + '/images/fp.png?' + str(self.sessionid))
-        # time.sleep(self.screencap_delay)
         data = urllib2.urlopen('http://' + self.address + '/images/fp.png?' + str(self.sessionid))
         image_file = io.BytesIO(data.read())
         im = Image.open(image_file)
