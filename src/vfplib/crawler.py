@@ -139,6 +139,8 @@ class Crawler(object):
                                 break
                         else:
                             self.currentscreen = expectedcurrentscreen
+                            if click.effect:
+                                self.currentscreen.buttonmap[click.effect.keys()[0]].set_setting(click.effect.values()[0])
 
                     else:
                         self.analyze()
