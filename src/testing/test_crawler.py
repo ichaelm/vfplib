@@ -9,17 +9,16 @@ import vfplib.crawler as crawler
 
 class Test(unittest.TestCase):
     def testMergeButtons(self):
-        a = Button('a', (0, 0))
         b_1 = FieldButton('b', (0, 1), 'b_1')
         b_2 = FieldButton('b', (0, 1), 'b_2')
         diff1 = crawler.merge_buttons(b_1, b_2)
         self.assertEquals(b_2.setting, 'b_1')
         self.assertEquals(b_2.settings, set(['b_1', 'b_2']))
         diff2 = crawler.merge_buttons(b_2, b_1)
-        self.assertEquals(diff1, set(['b_1']))
-        self.assertEquals(diff2, set(['b_2']))
+        self.assertEquals(diff1, 'b_1')
+        self.assertEquals(diff2, None)
         self.assertEquals(b_1.setting, 'b_1')
-        self.assertEquals(b_1.settings, set(['b_1', 'b_2']))
+        self.assertEquals(b_1.settings, set(['b_1']))
         # TODO: add more corner case coverage
 
     def testMergeScreens(self):
@@ -34,21 +33,15 @@ class Test(unittest.TestCase):
         b = Screen('a', [ba, bb_2, bc_2, bd_1])
         c = Screen('a', [ba, bb_3, bc_1, bd_1])
         diffs1 = crawler.merge_screens(c, b)
-        diffs2 = crawler.merge_screens(b, a)
-        self.assertEquals(diffs1, {'ba': set(), 'bb': set(['bb_3']), 'bc': set(['bc_1']), 'bd': set()})
-        self.assertEquals(diffs2, {'ba': set(), 'bb': set(['bb_2', 'bb_3']), 'bc': set(['bc_2']), 'bd': set()})
-        self.assertEquals(b.buttonmap['bb'].setting, 'bb_3')
-        self.assertEquals(b.buttonmap['bb'].settings, set(['bb_2', 'bb_3']))
+        diffs2 = crawler.merge_screens(a, b)
+        self.assertEquals(diffs1, {'ba': None, 'bb': 'bb_3', 'bc': 'bc_1', 'bd': None})
+        self.assertEquals(diffs2, {'ba': None, 'bb': 'bb_1', 'bc': None, 'bd': None})
+        self.assertEquals(b.buttonmap['bb'].setting, 'bb_1')
+        self.assertEquals(b.buttonmap['bb'].settings, set(['bb_1', 'bb_2', 'bb_3']))
         self.assertEquals(b.buttonmap['bc'].setting, 'bc_1')
         self.assertEquals(b.buttonmap['bc'].settings, set(['bc_1', 'bc_2']))
         self.assertEquals(b.buttonmap['bd'].setting, 'bd_1')
         self.assertEquals(b.buttonmap['bd'].settings, set(['bd_1']))
-        self.assertEquals(a.buttonmap['bb'].setting, 'bb_3')
-        self.assertEquals(a.buttonmap['bb'].settings, set(['bb_1', 'bb_2', 'bb_3']))
-        self.assertEquals(a.buttonmap['bc'].setting, 'bc_1')
-        self.assertEquals(a.buttonmap['bc'].settings, set(['bc_1', 'bc_2']))
-        self.assertEquals(a.buttonmap['bd'].setting, 'bd_1')
-        self.assertEquals(a.buttonmap['bd'].settings, set(['bd_1']))
         # TODO: add more corner case coverage
 
 
