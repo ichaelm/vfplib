@@ -87,6 +87,9 @@ class Test(unittest.TestCase):
     def testParserGetHelpText(self):
         pass  # unimplemented test
 
+    def testSelectFunction(self):
+        pass  # unimplemented test
+
     def testParserStr(self):
         pass  # unimplemented test
 

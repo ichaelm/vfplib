@@ -44,6 +44,30 @@ MAIN_MENU_MAP = {
     'System: Info/Manage'   : (720, 427)
 }
 
+SET_FUNCTION_MEASURE_MAP = {
+    'DC Voltage'       : (175, 110),
+    'DC Current'       : (400, 110),
+    'AC Voltage'       : (175, 170),
+    'AC Current'       : (400, 170),
+    'Resistance 2W'    : (615, 110),
+    'Resistance 4W'    : (615, 170),
+    'Temperature'      : (175, 230),
+    'Frequency'        : (400, 230),
+    'Period'           : (615, 230),
+    'Continuity'       : (175, 290),
+    'Capacitance'      : (400, 290),
+    'Diode'            : (615, 290),
+    'DCV Ratio'        : (175, 350),
+}
+
+SET_FUNCTION_DIGITIZE_MAP = {
+    'Digitize Voltage' : (200, 110),
+    'Digitize Current' : (200, 170),
+}
+
+SET_FUNCTION_MEASURE_TAB = (200, 40)
+SET_FUNCTION_DIGITIZE_TAB = (520, 40)
+
 # ocr
 def OCR_image(im):
     text = pytesser.image_to_string(im).replace('\n', ' ').strip(' ')
@@ -334,6 +358,15 @@ class Parser(object):
         screen_im_rgb = screen_im_orij.convert('RGB')
         help_text = OCR_help(screen_im_rgb)
         return help_text
+
+    def select_function(self, function):
+        self.press('function')
+        if function in SET_FUNCTION_MEASURE_MAP:
+            self.session.click(*SET_FUNCTION_MEASURE_TAB)
+            self.session.click(*(SET_FUNCTION_MEASURE_MAP[function]))
+        if function in SET_FUNCTION_DIGITIZE_MAP:
+            self.session.click(*SET_FUNCTION_DIGITIZE_TAB)
+            self.session.click(*(SET_FUNCTION_DIGITIZE_MAP[function]))
 
     def __str__(self):
         return 'Parser on' + str(self.session)
