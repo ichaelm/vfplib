@@ -5,6 +5,7 @@ Created on Jun 10, 2014
 '''
 
 from vfplib.parser import Screen, Button, Parser, FieldButton
+import copy
 
 dummyscreenmap = {'root' : Screen('root', [FieldButton('root_to_A_if_x=1;B', (0, 0), 'x=0'),
                                            Button('root_to_C', (0, 0)), ]),
@@ -59,4 +60,4 @@ class DummyParser(Parser):
         raise NotImplementedError()
     def analyze(self, _=None):
         self.numscreencaps = self.numscreencaps + 1
-        return self.currentscreen
+        return copy.deepcopy(self.currentscreen)
