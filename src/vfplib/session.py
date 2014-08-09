@@ -52,6 +52,20 @@ class Session(object):
         """Stores the ID number of the current session"""
         return self._sessionid
 
+    def reset(self):
+        """Re-establishes connection using the stored IP address, or throws exceptions on failure."""
+        try:
+            response = urllib2.urlopen('http://' + self._address + '/ajax_proc', 'function=9').readline()
+            if '\x00' not in response:  # This string appears to indicate that the connection is new. If not new, creates a new one.
+                response = urllib2.urlopen('http://' + self._address + '/ajax_proc', 'function=9').readline()
+        except urllib2.URLError:
+            # error communicating with server
+            raise
+        except urllib2.HTTPError:
+            # server responded with error message, such as 404
+            raise
+        self._sessionid = int(response.partition('=')[2].partition('$')[0])  # parses response of the form 'session=XXX$symbols'
+
     def screencap(self):
         """Performs screen capture, including all dummy requests and delays to ensure the screen returned is what was shown at the time this function was called.
 
