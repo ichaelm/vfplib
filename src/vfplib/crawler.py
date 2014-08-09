@@ -13,10 +13,8 @@ def merge_buttons(source, target):
     assert source == target
     if isinstance(source, FieldButton):
         assert isinstance(target, FieldButton)
-        for sourcesetting in source.settings:
-            if sourcesetting not in target.settings:
-                target.settings.add(sourcesetting)
-                diff.add(sourcesetting)
+        if source.setting != target.setting:
+            diff.add(source.setting)
         target.set_setting(source.setting)
     return diff
 
