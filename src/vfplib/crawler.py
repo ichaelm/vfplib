@@ -113,17 +113,19 @@ class Crawler(object):
                     if self.verbose:
                         print('Cant click ' + str(click.button.name) + " while set to [" + str(click.setting) + "]")
                     click = newclick
-                self.click(click)
-                self.analyze()  # temp
-                break  # temp
-                if click in clickedclicks:
-                    expectedcurrentscreen = self.graph.follow_edge(self.lastscreen, click)
+                    self.click(click)
                     self.analyze()
-                    break  # temp
-                    if self.currentscreen != expectedcurrentscreen:
-                        break
+                    break
                 else:
-                    self.analyze()
+                    self.click(click)
+                    if click in clickedclicks:
+                        expectedcurrentscreen = self.graph.follow_edge(self.lastscreen, click)
+                        self.analyze()
+                        if self.currentscreen != expectedcurrentscreen:
+                            # bad assumption
+                            break
+                    else:
+                        self.analyze()
             path = self.graph.nearest_unexplored_edge(self.currentscreen)
         return self.graph
 
