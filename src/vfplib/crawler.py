@@ -8,6 +8,8 @@ from .graph import Graph
 from .ui_structure import Button, FieldButton, Click, NumericalEntry
 import random
 
+SELF_CHECK = False
+
 def merge_buttons(source, target):
     diff = None
     assert source == target
@@ -130,10 +132,14 @@ class Crawler(object):
                     self.click(click)
                     if click in clickedclicks:
                         expectedcurrentscreen = self.graph.follow_edge(self.lastscreen, click)
-                        self.analyze()
-                        if self.currentscreen != expectedcurrentscreen:
-                            # bad assumption
-                            break
+                        if SELF_CHECK:
+                            self.analyze()
+                            if self.currentscreen != expectedcurrentscreen:
+                                # bad assumption
+                                break
+                        else:
+                            self.currentscreen = expectedcurrentscreen
+
                     else:
                         self.analyze()
             path = self.graph.nearest_unexplored_edge(self.currentscreen)
