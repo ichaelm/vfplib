@@ -368,5 +368,8 @@ class Parser(object):
             self.session.click(*SET_FUNCTION_DIGITIZE_TAB)
             self.session.click(*(SET_FUNCTION_DIGITIZE_MAP[function]))
 
+    def menu_click(self, buttonname):
+        self.session.click(*(MAIN_MENU_MAP[buttonname]))
+
     def __str__(self):
         return 'Parser on' + str(self.session)

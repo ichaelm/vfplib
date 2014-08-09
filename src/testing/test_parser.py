@@ -90,6 +90,9 @@ class Test(unittest.TestCase):
     def testSelectFunction(self):
         pass  # unimplemented test
 
+    def testMenuClick(self):
+        pass  # unimplemented test
+
     def testParserStr(self):
         pass  # unimplemented test
 
