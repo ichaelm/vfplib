@@ -80,7 +80,7 @@ class Crawler(object):
                 clicks.add(Click(button, button.setting))
             else:
                 clicks.add(Click(button))
-        effect = None
+        effect = {}
         if screen not in self.graph:
             if self.verbose:
                 if screen.parent:
@@ -102,8 +102,12 @@ class Crawler(object):
         self.currentscreen = screen
         if self.lastscreen != None:
             assert self.currentclick != None
-            if effect:
+            if effect != self.currentclick.effect:  # if the effect is new
                 self.currentclick.set_target(self.currentscreen, effect)
+                # when an effect is found, all other paths out of that same screen for which an effect has not been found must be revisited:
+                for edge in self.graph.edges(self.lastscreen):
+                    if edge.effect == {}:
+                        self.graph.add_edge(self.lastscreen, edge)
             self.graph.add_edge(self.lastscreen, self.currentclick, self.currentscreen)
         return screen
 
