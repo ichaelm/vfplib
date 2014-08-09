@@ -9,12 +9,12 @@ from .ui_structure import Button, FieldButton, Click, NumericalEntry
 import random
 
 def merge_buttons(source, target):
-    diff = set()
+    diff = None
     assert source == target
     if isinstance(source, FieldButton):
         assert isinstance(target, FieldButton)
         if source.setting != target.setting:
-            diff.add(source.setting)
+            diff = source.setting
         target.set_setting(source.setting)
     return diff
 
@@ -94,11 +94,11 @@ class Crawler(object):
             countnumdiffs = 0
             for buttonname in diffs:
                 diff = diffs[buttonname]
-                for setting in diff:
+                if diff:
                     countnumdiffs += 1
                     assert countnumdiffs <= 1  # assuming parser returned at most one button with one setting
-                    self.graph.add_edge(screen, Click(screen.buttonmap[buttonname], setting))
-                    effect = {buttonname: setting}
+                    self.graph.add_edge(screen, Click(screen.buttonmap[buttonname], diff))
+                    effect = {buttonname: diff}
         self.currentscreen = screen
         if self.lastscreen != None:
             assert self.currentclick != None
