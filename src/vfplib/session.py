@@ -14,6 +14,7 @@ from PIL import Image
 DEFAULT_COMMAND_DELAY = 0.05
 # delay between screen captures (multiply by 2 for delay per screen capture operation)
 DEFAULT_SCREENCAP_DELAY = .2
+DEFAULT_SCREENCAP_ATTEMPT_LIMIT = 20
 
 class Session(object):
     """Represents a Virtual Front Panel session.
@@ -41,6 +42,7 @@ class Session(object):
         self._sessionid = int(response.partition('=')[2].partition('$')[0])  # parses response of the form 'session=XXX$symbols'
         self.screencap_delay = DEFAULT_SCREENCAP_DELAY
         self.command_delay = DEFAULT_COMMAND_DELAY
+        self.screencap_attempt_limit = DEFAULT_SCREENCAP_ATTEMPT_LIMIT
 
     @property
     def address(self):
@@ -78,11 +80,15 @@ class Session(object):
         data = urllib2.urlopen('http://' + self._address + '/images/fp.png?' + str(self._sessionid))
         image_file = io.BytesIO(data.read())
         im = Image.open(image_file)
+        i = 0
         while im.size[0] < 20:
             time.sleep(self.screencap_delay)
             data = urllib2.urlopen('http://' + self._address + '/images/fp.png?' + str(self._sessionid))
             image_file = io.BytesIO(data.read())
             im = Image.open(image_file)
+            i = i + 1
+            if i >= self.screencap_attempt_limit:
+                raise RuntimeError('VFP connection has stopped responding')
         return im
 
     def click(self, x, y):
